@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Warehouse Fires — U.S. Industrial Fire Research, 2025–2026</title>
+  <meta name="description" content="A rigorous source of truth for U.S. warehouse and industrial fires following the April 7, 2026 Kimberly-Clark arson in Ontario, CA. Separating confirmed fact from speculation.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header>
+    <div class="masthead">
+      <p class="masthead__eyebrow">Independent Research · April 14, 2026</p>
+      <p class="masthead__title">Warehouse Fires</p>
+      <p class="masthead__subtitle">A running account of U.S. warehouse and industrial fires, 2025–2026</p>
+      <p class="masthead__meta">12 incidents documented · Confirming fact, correcting speculation</p>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- Summary stats -->
+    <section aria-label="Summary statistics">
+      <div class="stats" role="list">
+        <div class="stats__item" role="listitem">
+          <span class="stats__value">12</span>
+          <span class="stats__label">Total incidents</span>
+        </div>
+        <div class="stats__item" role="listitem">
+          <span class="stats__value">2</span>
+          <span class="stats__label">Confirmed arson</span>
+        </div>
+        <div class="stats__item" role="listitem">
+          <span class="stats__value">1</span>
+          <span class="stats__label">Explicit wage motive</span>
+        </div>
+        <div class="stats__item" role="listitem">
+          <span class="stats__value">4</span>
+          <span class="stats__label">Not arson</span>
+        </div>
+        <div class="stats__item" role="listitem">
+          <span class="stats__value">5</span>
+          <span class="stats__label">Under investigation</span>
+        </div>
+        <div class="stats__item" role="listitem">
+          <span class="stats__value">1</span>
+          <span class="stats__label">Unconfirmed</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filter -->
+    <div aria-live="polite" aria-atomic="true" id="filter-live"></div>
+
+    <fieldset>
+      <legend>Filter by arson status</legend>
+      <div class="filter__options">
+        <label class="filter__option">
+          <input type="radio" name="filter" value="all" checked>
+          <span>All <span class="filter__count" aria-hidden="true">12</span></span>
+        </label>
+        <label class="filter__option">
+          <input type="radio" name="filter" value="arson">
+          <span>Arson <span class="filter__count" aria-hidden="true">2</span></span>
+        </label>
+        <label class="filter__option">
+          <input type="radio" name="filter" value="not-arson">
+          <span>Not arson <span class="filter__count" aria-hidden="true">4</span></span>
+        </label>
+        <label class="filter__option">
+          <input type="radio" name="filter" value="unknown">
+          <span>Unknown <span class="filter__count" aria-hidden="true">6</span></span>
+        </label>
+      </div>
+    </fieldset>
+
+    <!-- Feed: most recent first -->
+    <ol class="feed" aria-label="Incident feed">
+
+      <!-- 2026-04-13 — West Jefferson, NC (unknown) -->
+      <li data-status="unknown">
+        <article>
+          <header>
+            <p class="card__dateline">Apr 13, 2026 · West Jefferson, NC</p>
+            <h2><a href="fires/2026-04-13-west-jefferson-nc-amazon-unconfirmed.html">Amazon Fire, West Jefferson, NC — Unconfirmed</a></h2>
+            <div class="card__badges">
+              <span class="badge badge--unknown">Unconfirmed</span>
+            </div>
+          </header>
+          <p>A Threads post by @mikebanksmadeit, geotagged West Jefferson, NC, suggested another fire. No news coverage has been found for an Amazon fire in this location. The poster may have been commenting on the broader April cluster, not a local incident.</p>
+          <footer class="card__footer">
+            <a href="fires/2026-04-13-west-jefferson-nc-amazon-unconfirmed.html" aria-label="Read full report: West Jefferson, NC — Unconfirmed">Read full report →</a>
+          </footer>
+        </article>
+      </li>
+
+      <!-- 2026-04-11/12 — Wayne County, OH (unknown) -->
+      <li data-status="unknown">
+        <article>
+          <header>
+            <p class="card__dateline">Apr 11–12, 2026 · Wayne County, OH</p>
+            <h2><a href="fires/2026-04-11-wayne-county-oh-southwood-lumber-pallet-orrville.html">Southwood Lumber Pallet — Orrville, Ohio</a></h2>
+            <div class="card__badges">
+              <span class="badge badge--unknown">Under Investigation</span>
+            </div>
+          </header>
+          <p>A seven-alarm fire at Southwood Lumber Pallet Inc., a 42-year-old family business. Twenty-four fire departments responded; 75+ firefighters used more than 500,000 gallons of water. The roof collapsed. Cause under investigation by the Ohio State Fire Marshal.</p>
+          <footer class="card__footer">
+            <a href="fires/2026-04-11-wayne-county-oh-southwood-lumber-pallet-orrville.html" aria-label="Read full report: Southwood Lumber Pallet, Wayne County, OH">Read full report →</a>
+          </footer>
+        </article>
+      </li>
+
+      <!-- 2026-04-11 — Cahokia Heights, IL (not-arson) -->
+      <li data-status="not-arson">
+        <article>
+          <header>
+            <p class="card__dateline">Apr 11, 2026 · Cahokia Heights, IL</p>
+            <h2><a href="fires/2026-04-11-cahokia-heights-il-patterson-towing-lot.html">Patterson Towing Lot — near East St. Louis</a></h2>
+            <div class="card__badges">
+              <span class="badge badge--not-arson">Not Arson</span>
+            </div>
+          </header>
+          <p>About 100 vehicles burned at the Patterson Towing LLC yard in Cahokia Heights, IL, creating a smoke plume visible across the Mississippi. An employee said heavy equipment struck an electric vehicle battery, triggering a lithium-ion fire. Thirteen fire departments responded.</p>
+          <footer class="card__footer">
+            <a href="fires/2026-04-11-cahokia-heights-il-patterson-towing-lot.html" aria-label="Read full report: Patterson Towing, Cahokia Heights, IL">Read full report →</a>
+          </footer>
+        </article>
+      </li>
+
+      <!-- 2026-04-11 — Bakersfield, CA (unknown) -->
+      <li data-status="unknown">
+        <article>
+          <header>
+            <p class="card__dateline">Apr 11, 2026 · Bakersfield, CA</p>
+            <h2><a href="fires/2026-04-11-bakersfield-ca-washington-st-abandoned-warehouse.html">Abandoned Warehouse, 99 Washington St. (spread to SA Recycling)</a></h2>
+            <div class="card__badges">
+              <span class="badge badge--unknown">Under Investigation</span>
+            </div>
+          </header>
+          <p>A ~30,000 sq ft abandoned warehouse packed with plastic bales burned in East Bakersfield, spreading to the adjacent SA Recycling facility. This was the third fire at the same address — two previous blazes occurred in 2024. Cause under investigation.</p>
+          <footer class="card__footer">
+            <a href="fires/2026-04-11-bakersfield-ca-washington-st-abandoned-warehouse.html" aria-label="Read full report: Abandoned warehouse, Bakersfield, CA">Read full report →</a>
+          </footer>
+        </article>
+      </li>
+
+      <!-- 2026-04-10/11 — College Point, Queens, NY (unknown) -->
+      <li data-status="unknown">
+        <article>
+          <header>
+            <p class="card__dateline">Apr 10–11, 2026 · College Point, Queens, NY</p>
+            <h2><a href="fires/2026-04-10-college-point-queens-ny-lumberyard-warehouse.html">Lumberyard Warehouse — College Point, Queens</a></h2>
+            <div class="card__badges">
+              <span class="badge badge--unknown">Under Investigation</span>
+            </div>
+          </header>
+          <p>A five-alarm fire destroyed a 64,000 sq ft industrial lumberyard warehouse in College Point, Queens. About 300 firefighters and 90 units responded; eight tower ladders surrounded the building, which was a total loss. FDNY fire marshals are investigating.</p>
+          <footer class="card__footer">
+            <a href="fires/2026-04-10-college-point-queens-ny-lumberyard-warehouse.html" aria-label="Read full report: College Point lumberyard, Queens, NY">Read full report →</a>
+          </footer>
+        </article>
+      </li>
+
+      <!-- 2026-04-10 — Lawrenceville, GA (not-arson) -->
+      <li data-status="not-arson">
+        <article>
+          <header>
+            <p class="card__dateline">Apr 10, 2026 · Lawrenceville, GA</p>
+            <h2><a href="fires/2026-04-10-lawrenceville-ga-gsl-transfer-station.html">GSL Transfer Station — near Gwinnett County Airport</a></h2>
+            <div class="card__badges">
+              <span class="badge badge--not-arson">Not Arson — Accidental</span>
+            </div>
+          </header>
+          <p>A trash fire inside the GSL Transfer Station warehouse spread rapidly before employees could contain it. About 40 firefighters responded; one worker was hospitalized with non-life-threatening burns. Gwinnett County fire officials confirmed accidental cause.</p>
+          <footer class="card__footer">
+            <a href="fires/2026-04-10-lawrenceville-ga-gsl-transfer-station.html" aria-label="Read full report: GSL Transfer Station, Lawrenceville, GA">Read full report →</a>
+          </footer>
+        </article>
+      </li>
+
+      <!-- 2026-04-09 — Newark, NJ (unknown) -->
+      <li data-status="unknown">
+        <article>
+          <header>
+            <p class="card__dateline">Apr 9, 2026 · Newark, NJ</p>
+            <h2><a href="fires/2026-04-09-newark-nj-lister-ave-chemical-warehouse.html">Chemical Warehouse — 104 Lister Ave, Ironbound</a></h2>
+            <div class="card__badges">
+              <span class="badge badge--unknown">Under Investigation</span>
+            </div>
+          </header>
+          <p>A three-alarm chemical warehouse fire in Newark's Ironbound neighborhood drew more than 100 firefighters, seven ladder trucks, and a drone. The New Jersey DEP responded due to chemical contents. All 21 employees escaped safely. Cause under investigation.</p>
+          <footer class="card__footer">
+            <a href="fires/2026-04-09-newark-nj-lister-ave-chemical-warehouse.html" aria-label="Read full report: Chemical warehouse, Newark, NJ">Read full report →</a>
+          </footer>
+        </article>
+      </li>
+
+      <!-- 2026-04-08/09 — East Providence, RI (not-arson) -->
+      <li data-status="not-arson">
+        <article>
+          <header>
+            <p class="card__dateline">Apr 8–9, 2026 · East Providence, RI</p>
+            <h2><a href="fires/2026-04-08-east-providence-ri-aspen-aerogels.html">Aspen Aerogels Manufacturing Plant — Dexter Road</a></h2>
+            <div class="card__badges">
+              <span class="badge badge--not-arson">Not Arson — Accidental</span>
+            </div>
+          </header>
+          <p>An explosion tore through the Aspen Aerogels plant on Dexter Road, injuring 11. The RI State Fire Marshal confirmed the cause: ethanol vapors in a drying oven that had open permits and had never been inspected before operation. All injured workers were released by 3 a.m.</p>
+          <footer class="card__footer">
+            <a href="fires/2026-04-08-east-providence-ri-aspen-aerogels.html" aria-label="Read full report: Aspen Aerogels, East Providence, RI">Read full report →</a>
+          </footer>
+        </article>
+      </li>
+
+      <!-- 2026-04-08 — West Jefferson, OH (not-arson) -->
+      <li data-status="not-arson">
+        <article>
+          <header>
+            <p class="card__dateline">Apr 8, 2026 · West Jefferson, OH</p>
+            <h2><a href="fires/2026-04-08-west-jefferson-oh-amazon-fulfillment-center.html">Amazon Fulfillment Center — 1550 W. Main St.</a></h2>
+            <div class="card__badges">
+              <span class="badge badge--not-arson">Not Arson — Solar Panels</span>
+            </div>
+          </header>
+          <p>Seventy-five to 100 rooftop solar panels caught fire at the Amazon fulfillment center in West Jefferson, OH. Thousands of employees were evacuated; State Route 29 was closed. No injuries. Ten fire engines responded. Amazon has had six or more solar-related fires at its facilities since 2020.</p>
+          <footer class="card__footer">
+            <a href="fires/2026-04-08-west-jefferson-oh-amazon-fulfillment-center.html" aria-label="Read full report: Amazon fulfillment center, West Jefferson, OH">Read full report →</a>
+          </footer>
+        </article>
+      </li>
+
+      <!-- 2026-04-07 — Ontario, CA — KEY INCIDENT -->
+      <li data-status="arson" data-primary>
+        <article>
+          <header>
+            <p class="card__dateline">Apr 7, 2026 · Ontario, CA</p>
+            <h2><a href="fires/2026-04-07-ontario-ca-kimberly-clark-distribution-center.html">Kimberly-Clark Distribution Center — Ontario, California</a></h2>
+            <div class="card__badges">
+              <span class="badge badge--arson">Confirmed Arson</span>
+              <span class="badge badge--labor">Explicit Wage Protest</span>
+            </div>
+          </header>
+          <p>The watershed event. NFI Industries warehouse worker Chamel Abdulkarim, 29, filmed himself setting the 1.2-million-square-foot facility ablaze and posted the video to Facebook, saying <em>"All you had to do was pay us enough to live."</em> Estimated damage: $500–650 million — more than the entire annual U.S. warehouse fire loss average. Federal and state charges filed.</p>
+          <footer class="card__footer">
+            <a href="fires/2026-04-07-ontario-ca-kimberly-clark-distribution-center.html" aria-label="Read full report: Kimberly-Clark arson, Ontario, CA">Read full report →</a>
+          </footer>
+        </article>
+      </li>
+
+      <!-- 2026-03-16 — Flushing, Queens, NY (arson) -->
+      <li data-status="arson">
+        <article>
+          <header>
+            <p class="card__dateline">Mar 16, 2026 · Flushing, Queens, NY</p>
+            <h2><a href="fires/2026-03-16-flushing-queens-ny-avery-ave-residential.html">132-05 Avery Ave — Residential Building (4 killed)</a></h2>
+            <div class="card__badges">
+              <span class="badge badge--arson">Confirmed Arson — 4 Dead</span>
+            </div>
+          </header>
+          <p>Roman Amatitla, 38, was fired from his food processing job and set fire to a residential building in Flushing. Four people died, including a 3-year-old. He sat on the curb and watched. Charged with murder and arson; faces 25 years to life. Not a wage protest — this was rage over termination.</p>
+          <footer class="card__footer">
+            <a href="fires/2026-03-16-flushing-queens-ny-avery-ave-residential.html" aria-label="Read full report: Avery Ave fire, Flushing, Queens">Read full report →</a>
+          </footer>
+        </article>
+      </li>
+
+      <!-- 2026-01-05 — Joliet, IL (unknown) -->
+      <li data-status="unknown">
+        <article>
+          <header>
+            <p class="card__dateline">Jan 5, 2026 · Joliet, IL</p>
+            <h2><a href="fires/2026-01-05-joliet-il-amazon-warehouse.html">Amazon Warehouse — 4300 Brandon Road</a></h2>
+            <div class="card__badges">
+              <span class="badge badge--unknown">Cause Undetermined</span>
+            </div>
+          </header>
+          <p>A fire deep inside the Amazon warehouse on Brandon Road was fought by crews from six Joliet stations for five hours. Sprinklers activated; firefighters faced zero visibility and material falling from racks. Cause remains undetermined. Predates the April 2026 cluster by three months.</p>
+          <footer class="card__footer">
+            <a href="fires/2026-01-05-joliet-il-amazon-warehouse.html" aria-label="Read full report: Amazon warehouse, Joliet, IL">Read full report →</a>
+          </footer>
+        </article>
+      </li>
+
+    </ol>
+
+  </main>
+
+  <footer>
+    <p>Research date: April 14, 2026. See <a href="fires/history.html">historical baseline statistics</a> for context. Sources verified and cited in each incident report.</p>
+  </footer>
+
+  <script>
+    (function () {
+      const inputs = document.querySelectorAll('fieldset input[type="radio"]');
+      const items  = document.querySelectorAll('.feed > li[data-status]');
+      const live   = document.getElementById('filter-live');
+      const total  = items.length;
+
+      inputs.forEach(function (input) {
+        input.addEventListener('change', function () {
+          const val = input.value;
+          let visible = 0;
+
+          items.forEach(function (item) {
+            const match = val === 'all' || item.dataset.status === val;
+            item.hidden = !match;
+            if (match) visible++;
+          });
+
+          live.textContent = val === 'all'
+            ? 'Showing all ' + total + ' incidents.'
+            : 'Showing ' + visible + ' of ' + total + ' incidents.';
+        });
+      });
+    }());
+  </script>
+
+</body>
+</html>
