@@ -1,7 +1,7 @@
 # Warehouse Fires — Research Index
 
 **Research date:** April 14, 2026  
-**Focus:** U.S. warehouse/industrial fires 2025–2026, particularly incidents involving arson or suspected connections to labor/wage protests.
+**Focus:** U.S. warehouse/industrial fires in 2026, particularly incidents involving arson or suspected connections to labor/wage protests.
 
 ---
 

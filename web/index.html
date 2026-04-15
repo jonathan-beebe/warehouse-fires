@@ -15,7 +15,7 @@
       <p class="masthead__eyebrow">Independent Research · April 14, 2026</p>
       <h1 class="masthead__title">Warehouse Fires</h1>
       <p class="masthead__subtitle">A running account of U.S. warehouse and industrial fires, 2025–2026</p>
-      <p class="masthead__meta">12 incidents documented · Confirming fact, correcting speculation</p>
+      <p class="masthead__meta">14 incidents documented · Confirming fact, correcting speculation</p>
     </div>
   </header>
 
@@ -24,7 +24,7 @@
     <section aria-label="Summary statistics">
       <div class="stats" role="list">
         <div class="stats__item" role="listitem">
-          <span class="stats__value">12</span>
+          <span class="stats__value">14</span>
           <span class="stats__label">Total incidents</span>
         </div>
         <div class="stats__item" role="listitem">
@@ -36,18 +36,18 @@
           <span class="stats__label">Explicit wage motive</span>
         </div>
         <div class="stats__item" role="listitem">
-          <span class="stats__value">4</span>
+          <span class="stats__value">5</span>
           <span class="stats__label">Not arson</span>
         </div>
         <div class="stats__item" role="listitem">
-          <span class="stats__value">6</span>
+          <span class="stats__value">7</span>
           <span class="stats__label">Under investigation</span>
         </div>
       </div>
     </section>
 
     <section class="context" aria-label="Background">
-      <p>The dominant story is the <strong>April 7, 2026 Kimberly-Clark Distribution Center arson</strong> in Ontario, CA — the first nationally covered case of a warehouse worker explicitly filming himself committing arson and stating <em>"All you had to do was pay us enough to live"</em> as the motive. This has triggered national conversation about warehouse labor conditions. It is part of a broader pattern: in the 7 days following that arson, <strong>at least 9 additional significant industrial fires</strong> occurred across the United States. Only two are confirmed arson (Ontario and Flushing/Queens — the latter a residential building). Of the remaining 10, four have confirmed non-arson causes (solar panels, ethanol vapor, accidental trash fire, EV battery). Five remain under investigation. One (West Jefferson, NC) has no confirmed news coverage at all. See the <a href="fires/history.html">historical baseline statistics</a> for full data and source citations.</p>
+      <p>The dominant story is the <strong>April 7, 2026 Kimberly-Clark Distribution Center arson</strong> in Ontario, CA — the first nationally covered case of a warehouse worker explicitly filming himself committing arson and stating <em>"All you had to do was pay us enough to live"</em> as the motive. This has triggered national conversation about warehouse labor conditions. It is part of a broader pattern: in the 7 days following that arson, <strong>at least 11 additional significant industrial fires</strong> occurred across the United States. Only two are confirmed arson (Ontario and Flushing/Queens — the latter a residential building). Of the remaining 12, five have confirmed non-arson causes (solar panels, ethanol vapor, accidental trash fire, EV battery, magnesium dust). Six remain under investigation. One (West Jefferson, NC) has no confirmed news coverage at all. See the <a href="fires/history.html">historical baseline statistics</a> for full data and source citations.</p>
     </section>
 
     <div aria-live="polite" aria-atomic="true" id="filter-live"></div>
@@ -57,7 +57,7 @@
       <div class="filter__options">
         <label class="filter__option">
           <input type="radio" name="filter" value="all" checked>
-          <span>All <span class="filter__count" aria-hidden="true">12</span></span>
+          <span>All <span class="filter__count" aria-hidden="true">14</span></span>
         </label>
         <label class="filter__option">
           <input type="radio" name="filter" value="arson">
@@ -65,16 +65,44 @@
         </label>
         <label class="filter__option">
           <input type="radio" name="filter" value="not-arson">
-          <span>Not arson <span class="filter__count" aria-hidden="true">4</span></span>
+          <span>Not arson <span class="filter__count" aria-hidden="true">5</span></span>
         </label>
         <label class="filter__option">
           <input type="radio" name="filter" value="unknown">
-          <span>Unknown <span class="filter__count" aria-hidden="true">6</span></span>
+          <span>Unknown <span class="filter__count" aria-hidden="true">7</span></span>
         </label>
       </div>
     </fieldset>
 
     <ol class="feed" aria-label="Incident feed">
+
+      <li data-status="not-arson">
+        <article>
+          <header>
+            <p class="card__dateline">Apr 14, 2026 · Compton, CA</p>
+            <h2><a href="fires/2026-04-14-compton-ca-magnesium-alloy-products.html">Magnesium Alloy Products Co. — Compton, California</a></h2>
+            <div class="card__badges"><span class="badge badge--not-arson">Not Arson — Accidental</span></div>
+          </header>
+          <p>Around 11 a.m. on Tuesday, April 14, 2026, a fire broke out at a commercial building in Compton's industrial corridor on Alameda Street near El Segundo Boulevard. The building houses **Magnesium Alloy Products Co.**, a magnesium and aluminum sand casting foundry.</p>
+          <footer class="card__footer">
+            <a href="fires/2026-04-14-compton-ca-magnesium-alloy-products.html" aria-label="Read full report: Magnesium Alloy Products Co., Compton, CA">Read full report →</a>
+          </footer>
+        </article>
+      </li>
+
+      <li data-status="unknown">
+        <article>
+          <header>
+            <p class="card__dateline">Apr 14, 2026 · Mobile, AL</p>
+            <h2><a href="fires/2026-04-14-mobile-al-kimberly-clark.html">Kimberly-Clark Facility — Mobile, Alabama</a></h2>
+            <div class="card__badges"><span class="badge badge--unknown">Under Investigation</span></div>
+          </header>
+          <p>Just before 10:30 a.m. on April 14, 2026, Mobile Fire and Rescue dispatched Engine 21 to Kimberly-Clark at 200 Africatown Boulevard for a reported grass fire. Upon arrival, crews confirmed a working fire in a commercial building and issued a full response. Incident command subsequently identified **two separate fires** at the location.</p>
+          <footer class="card__footer">
+            <a href="fires/2026-04-14-mobile-al-kimberly-clark.html" aria-label="Read full report: Kimberly-Clark Facility, Mobile, AL">Read full report →</a>
+          </footer>
+        </article>
+      </li>
 
       <li data-status="unknown">
         <article>
