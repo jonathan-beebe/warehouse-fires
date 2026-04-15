@@ -17,7 +17,9 @@ The fire spread to a neighboring **SA Recycling** (scrap metal yard) facility be
 
 ## Property History
 
-This is the **third fire** at this same location, following two previous blazes at the same address in 2024. The repeat-fire history makes the site notable but no arson determination has been made public.
+This is at minimum the **third fire** at this same location. Bakersfield.com and Kern County Fire cite two previous blazes at the address in 2024. A follow-up BakersfieldNow report (published April 13–14, 2026) describes the site as part of a larger "ten-acre notorious warehouse compound" and references fires at the complex in January and March 2025 as well — suggesting the repeat-fire history may be more extensive than two prior incidents.
+
+The repeat-fire history makes the site notable and is consistent with either chronic fire safety failures or possible intentional targeting, but no arson determination has been made public for any of the fires at this address.
 
 ---
 
@@ -46,3 +48,5 @@ Cause under investigation. No arson determination or labor connection has been p
 - [Spectee — US large fire destroys abandoned warehouse](https://spectee.com/detail/169682)
 - [Bakersfield.com — yet another warehouse fire on Brundage Lane](https://www.bakersfield.com/news/kcfd-puts-out-yet-another-warehouse-fire-on-brundage-lane/article_58533f7d-87b5-4908-af77-3f3cf05b9f90.html)
 - [Six Warehouse Fires in Five Days — Branding Ninja Substack](https://brandingninja.substack.com/p/six-warehouse-fires-in-five-days)
+- [Fire sets ablaze in east Bakersfield at notorious warehouse complex — BakersfieldNow (April 13, 2026; updated April 14)](https://bakersfieldnow.com/news/local/fire-sets-ablaze-in-east-bakersfield-at-notorious-warehouse-complex)
+- [Washington Incident – 2 Alarm Structure Fire — Kern County Fire Department](https://kerncountyfire.org/incident-info/washington-incident-2-alarm-structure-fire/)

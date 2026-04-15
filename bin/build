@@ -1,0 +1,1143 @@
+#!/usr/bin/env python3
+"""
+bin/build — Warehouse Fires site builder
+
+Translates markdown sources in ./fires/ to HTML in ./web/
+
+    fires/INDEX.md        → web/index.html
+    fires/history.md      → web/fires/history.html
+    fires/YYYY-MM-DD-*.md → web/fires/YYYY-MM-DD-*.html
+
+Usage:
+    ./bin/build            # build everything
+    ./bin/build index      # rebuild web/index.html only
+    ./bin/build history    # rebuild web/fires/history.html only
+    ./bin/build fires      # rebuild incident pages only
+
+Requires Python 3.6+, no third-party dependencies.
+"""
+
+import re
+import sys
+from pathlib import Path
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Configuration
+# ─────────────────────────────────────────────────────────────────────────────
+
+REPO = Path(__file__).resolve().parent.parent
+FIRES_DIR = REPO / "fires"
+WEB_DIR = REPO / "web"
+WEB_FIRES_DIR = WEB_DIR / "fires"
+
+RESEARCH_DATE = "April 14, 2026"
+AI_DISCLOSURE = (
+    "AI assistance disclosure: Claude (Anthropic) was used to assist in researching, "
+    "aggregating, and summarizing data across incident reports and historical statistics. "
+    "All sources are independently cited and linked. Human editorial judgment was applied "
+    "to all factual claims and status determinations."
+)
+
+MONTH_ABBR = {
+    1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "May", 6: "Jun",
+    7: "Jul", 8: "Aug", 9: "Sep", 10: "Oct", 11: "Nov", 12: "Dec",
+}
+MONTH_FULL = {
+    1: "January", 2: "February", 3: "March", 4: "April", 5: "May", 6: "June",
+    7: "July", 8: "August", 9: "September", 10: "October", 11: "November", 12: "December",
+}
+STATE_FULL = {
+    "AL": "Alabama", "AK": "Alaska", "AZ": "Arizona", "AR": "Arkansas",
+    "CA": "California", "CO": "Colorado", "CT": "Connecticut", "DE": "Delaware",
+    "FL": "Florida", "GA": "Georgia", "HI": "Hawaii", "ID": "Idaho",
+    "IL": "Illinois", "IN": "Indiana", "IA": "Iowa", "KS": "Kansas",
+    "KY": "Kentucky", "LA": "Louisiana", "ME": "Maine", "MD": "Maryland",
+    "MA": "Massachusetts", "MI": "Michigan", "MN": "Minnesota", "MS": "Mississippi",
+    "MO": "Missouri", "MT": "Montana", "NE": "Nebraska", "NV": "Nevada",
+    "NH": "New Hampshire", "NJ": "New Jersey", "NM": "New Mexico", "NY": "New York",
+    "NC": "North Carolina", "ND": "North Dakota", "OH": "Ohio", "OK": "Oklahoma",
+    "OR": "Oregon", "PA": "Pennsylvania", "RI": "Rhode Island", "SC": "South Carolina",
+    "SD": "South Dakota", "TN": "Tennessee", "TX": "Texas", "UT": "Utah",
+    "VT": "Vermont", "VA": "Virginia", "WA": "Washington", "WV": "West Virginia",
+    "WI": "Wisconsin", "WY": "Wyoming", "DC": "Washington, D.C.",
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# HTML Escaping
+# ─────────────────────────────────────────────────────────────────────────────
+
+def esc(s):
+    """Escape text for HTML content."""
+    return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+
+def esc_attr(s):
+    """Escape text for use in HTML attribute values (double-quoted)."""
+    return s.replace("&", "&amp;").replace('"', "&quot;")
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Date / Location Helpers
+# ─────────────────────────────────────────────────────────────────────────────
+
+def expand_state(location):
+    """'City, NY' → 'City, New York'. Returns original string if no match."""
+    m = re.search(r",\s*([A-Z]{2})$", location.strip())
+    if m and m.group(1) in STATE_FULL:
+        return location[: m.start()].rstrip() + ", " + STATE_FULL[m.group(1)]
+    return location
+
+
+def fmt_date_abbr(date_str):
+    """'2026-04-07' → 'Apr 7, 2026' | '2026-04-10/11' → 'Apr 10–11, 2026'."""
+    if "/" in date_str:
+        base, end_day = date_str.split("/")
+        y, m, d = base.split("-")
+        return f"{MONTH_ABBR[int(m)]} {int(d)}\u2013{int(end_day)}, {y}"
+    y, m, d = date_str.split("-")
+    return f"{MONTH_ABBR[int(m)]} {int(d)}, {y}"
+
+
+def fmt_date_full(date_str):
+    """'2026-04-07' → 'April 7, 2026'."""
+    if "/" in date_str:
+        base, end_day = date_str.split("/")
+        y, m, d = base.split("-")
+        return f"{MONTH_FULL[int(m)]} {int(d)}\u2013{int(end_day)}, {y}"
+    y, m, d = date_str.split("-")
+    return f"{MONTH_FULL[int(m)]} {int(d)}, {y}"
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Inline Markdown → HTML
+# ─────────────────────────────────────────────────────────────────────────────
+
+def inline(text):
+    """Convert inline markdown (links, bold, italic, code) to HTML.
+
+    Process order: extract links → escape HTML → apply emphasis → restore links.
+    This avoids double-escaping URLs and handles `&` in prose correctly.
+    """
+    slots = []
+
+    def _save_link(m):
+        link_text = esc(m.group(1))
+        # Apply emphasis within link text (after HTML-escaping the text)
+        link_text = re.sub(r"\*\*\*(.+?)\*\*\*", r"<strong><em>\1</em></strong>", link_text)
+        link_text = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", link_text)
+        link_text = re.sub(r"\*(.+?)\*", r"<em>\1</em>", link_text)
+        url = esc_attr(m.group(2))
+        slots.append(f'<a href="{url}">{link_text}</a>')
+        return f"\x01{len(slots) - 1}\x02"
+
+    text = re.sub(r"\[([^\]\n]+)\]\(([^)\n]+)\)", _save_link, text)
+
+    # Escape HTML-special characters in the remaining text
+    text = esc(text)
+
+    # Apply emphasis and inline code
+    text = re.sub(r"\*\*\*(.+?)\*\*\*", r"<strong><em>\1</em></strong>", text)
+    text = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", text)
+    text = re.sub(r"\*(.+?)\*", r"<em>\1</em>", text)
+    text = re.sub(r"`([^`]+)`", r"<code>\1</code>", text)
+
+    # Restore links
+    for i, html in enumerate(slots):
+        text = text.replace(f"\x01{i}\x02", html)
+
+    return text
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Block Markdown Parser
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _is_hr(s):
+    return bool(re.match(r"^(-{3,}|\*{3,}|_{3,})\s*$", s.strip()))
+
+
+def _is_table_sep(s):
+    """True if the line is a markdown table separator row (|---|---|)."""
+    stripped = s.strip()
+    if not ("|" in stripped or re.match(r"^[-:\s]+$", stripped)):
+        return False
+    parts = re.split(r"\|", stripped.strip("|"))
+    return (
+        len(parts) >= 1
+        and all(re.match(r"^[\s\-:]+$", p) for p in parts)
+        and any("-" in p for p in parts)
+    )
+
+
+def render_blocks(text):
+    """Convert a block of markdown text to HTML. Returns an HTML string."""
+    lines = text.splitlines()
+    parts = []
+    i = 0
+    while i < len(lines):
+        i, html = _parse_one_block(lines, i)
+        if html:
+            parts.append(html)
+    return "\n".join(parts)
+
+
+def _parse_one_block(lines, i):
+    """Parse one markdown block starting at offset i. Returns (new_i, html)."""
+    # Skip blank lines
+    while i < len(lines) and not lines[i].strip():
+        i += 1
+    if i >= len(lines):
+        return i, ""
+
+    s = lines[i].strip()
+
+    # Horizontal rule → omit
+    if _is_hr(s):
+        return i + 1, ""
+
+    # ATX heading
+    hm = re.match(r"^(#{1,6})\s+(.+?)(?:\s+#+)?\s*$", s)
+    if hm:
+        lvl = len(hm.group(1))
+        return i + 1, f"<h{lvl}>{inline(hm.group(2).strip())}</h{lvl}>"
+
+    # Blockquote
+    if s.startswith(">"):
+        return _parse_blockquote(lines, i)
+
+    # Fenced code block (``` ... ```)
+    if s.startswith("```"):
+        return _parse_fenced_code(lines, i)
+
+    # Table (current line has | and next line is separator)
+    if "|" in s and i + 1 < len(lines) and _is_table_sep(lines[i + 1]):
+        return _parse_table(lines, i)
+
+    # Unordered list
+    if re.match(r"^[-*+]\s", s):
+        return _parse_list(lines, i, ordered=False)
+
+    # Ordered list
+    if re.match(r"^\d+[.)]\s", s):
+        return _parse_list(lines, i, ordered=True)
+
+    # Paragraph
+    return _parse_paragraph(lines, i)
+
+
+def _parse_blockquote(lines, i):
+    bq_lines = []
+    while i < len(lines):
+        s = lines[i].strip()
+        if s.startswith(">"):
+            bq_lines.append(s[1:].lstrip())
+            i += 1
+        elif not s:
+            # Continue only if the next non-blank line is also a blockquote
+            j = i + 1
+            while j < len(lines) and not lines[j].strip():
+                j += 1
+            if j < len(lines) and lines[j].strip().startswith(">"):
+                bq_lines.append("")
+                i += 1
+            else:
+                break
+        else:
+            break
+
+    content = "\n".join(bq_lines).strip()
+    inner = render_blocks(content)
+
+    # Key-quote: blockquote opening with a quotation mark → styled callout
+    first_char = content.lstrip()[:1]
+    if first_char in ('"', "\u201c", "\u2018"):
+        return i, f'<div class="key-quote">\n{inner}\n</div>'
+    return i, f"<blockquote>\n{inner}\n</blockquote>"
+
+
+def _parse_fenced_code(lines, i):
+    fence = lines[i].strip()
+    lang = fence.lstrip("`").strip()
+    i += 1
+    code_lines = []
+    while i < len(lines) and not lines[i].strip().startswith("```"):
+        code_lines.append(lines[i])
+        i += 1
+    if i < len(lines):
+        i += 1  # consume closing fence
+    code = "\n".join(code_lines)
+    lang_attr = f' class="language-{esc_attr(lang)}"' if lang else ""
+    return i, f"<pre><code{lang_attr}>{esc(code)}</code></pre>"
+
+
+def _parse_table(lines, i):
+    raw_rows = []
+    while i < len(lines) and "|" in lines[i] and lines[i].strip():
+        raw = lines[i].strip().strip("|")
+        cells = [c.strip() for c in raw.split("|")]
+        raw_rows.append(cells)
+        i += 1
+
+    # Remove separator rows
+    data_rows = [r for r in raw_rows if not all(re.match(r"^[-:\s]*$", c) for c in r)]
+    if not data_rows:
+        return i, ""
+
+    head = data_rows[0]
+    body = data_rows[1:]
+
+    html = "<table>\n"
+    html += "  <thead>\n    <tr>"
+    html += "".join(f"<th>{inline(h)}</th>" for h in head)
+    html += "</tr>\n  </thead>\n"
+    if body:
+        html += "  <tbody>\n"
+        for row in body:
+            # Pad short rows to header length
+            while len(row) < len(head):
+                row.append("")
+            html += "    <tr>"
+            html += "".join(f"<td>{inline(c)}</td>" for c in row[: len(head)])
+            html += "</tr>\n"
+        html += "  </tbody>\n"
+    html += "</table>"
+    return i, html
+
+
+def _parse_list(lines, i, ordered=False):
+    top_re = re.compile(r"^\d+[.)]\s+" if ordered else r"^[-*+]\s+")
+    sub_re = re.compile(r"^\s{2,}(\d+[.)]\s+)" if ordered else r"^\s{2,}([-*+]\s+)")
+
+    items = []  # [(item_text, [sub_item_texts])]
+
+    while i < len(lines):
+        s = lines[i].strip()
+        if not s:
+            break
+
+        m = top_re.match(s)
+        if not m:
+            break
+
+        item_text = s[m.end():]
+        sub_items = []
+        i += 1
+
+        # Gather continuation lines and sub-items
+        while i < len(lines):
+            raw = lines[i]
+            ls = raw.strip()
+            if not ls:
+                break
+            sm = sub_re.match(raw)
+            if sm:
+                sub_items.append(raw[sm.end():].strip())
+                i += 1
+            elif raw[:1] in (" ", "\t") and not top_re.match(ls):
+                item_text += " " + ls
+                i += 1
+            else:
+                break
+
+        items.append((item_text, sub_items))
+
+    tag = "ol" if ordered else "ul"
+    sub_tag = "ol" if ordered else "ul"
+    li_parts = []
+    for text, subs in items:
+        if subs:
+            sub_html = "".join(f"<li>{inline(s)}</li>" for s in subs)
+            li_parts.append(f"<li>{inline(text)}<{sub_tag}>{sub_html}</{sub_tag}></li>")
+        else:
+            li_parts.append(f"<li>{inline(text)}</li>")
+
+    return i, f"<{tag}>{''.join(li_parts)}</{tag}>"
+
+
+def _parse_paragraph(lines, i):
+    para = []
+    while i < len(lines):
+        s = lines[i].strip()
+        if not s:
+            i += 1
+            break
+        # Stop at block-initiating tokens
+        if (re.match(r"^#{1,6}\s", s)
+                or s.startswith(">")
+                or re.match(r"^[-*+]\s", s)
+                or re.match(r"^\d+[.)]\s", s)
+                or _is_hr(s)
+                or s.startswith("```")
+                or ("|" in s and i + 1 < len(lines) and _is_table_sep(lines[i + 1]))):
+            break
+        para.append(s)
+        i += 1
+
+    if not para:
+        return i, ""
+    return i, f"<p>{inline(' '.join(para))}</p>"
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Incident File Parsing
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _parse_h1(h1_text):
+    """Extract (date_str, location, facility) from H1 text.
+
+    Expected format: 'YYYY-MM-DD[/DD] — Location: Facility Name'
+    """
+    m = re.match(
+        r"^(\d{4}-\d{2}-\d{2}(?:/\d{2})?)\s+[\u2014\-]{1,3}\s+(.+?):\s+(.+)$",
+        h1_text,
+    )
+    if m:
+        return m.group(1), m.group(2).strip(), m.group(3).strip()
+    # Fallback: no colon separator
+    m = re.match(r"^(\d{4}-\d{2}-\d{2}(?:/\d{2})?)\s+[\u2014\-]{1,3}\s+(.+)$", h1_text)
+    if m:
+        return m.group(1), "", m.group(2).strip()
+    return "", "", h1_text
+
+
+def _derive_badges(status, labor):
+    """Return (data_status, badge_css_class, badge_text, labor_badge_text_or_None).
+
+    Matching priority (highest wins):
+      1. Explicit negation phrases ("NOT arson", "NOT confirmed arson") → not-arson or unknown
+      2. Confirmed arson affirmation → arson
+      3. Accident / not-arson keywords → not-arson
+      4. Unconfirmed → unknown
+      5. Undetermined / not confirmed → unknown
+      6. Catch-all → under investigation
+    """
+    s = status.lower()
+
+    # 1. Phrases that negate arson
+    NOT_ARSON_PHRASES = ("not arson", "not arson", "accident", "accidental",
+                         "solar panel", "solar-panel", "ev battery",
+                         "electric vehicle", "electric/hybrid", "lithium", "ethanol")
+    NEGATED_ARSON = ("not confirmed arson", "not confirmed as arson",
+                     "not confirmed arson", "NOT confirmed arson".lower())
+
+    if any(p in s for p in NEGATED_ARSON):
+        # "NOT confirmed arson" → still under investigation / undetermined
+        data_status = "unknown"
+        badge_cls = "badge--unknown"
+        badge_txt = "Cause Undetermined"
+
+    elif "confirmed arson" in s:
+        data_status = "arson"
+        badge_cls = "badge--arson"
+        badge_txt = "Confirmed Arson"
+
+    elif any(kw in s for kw in NOT_ARSON_PHRASES):
+        data_status = "not-arson"
+        badge_cls = "badge--not-arson"
+        if "solar" in s:
+            badge_txt = "Not Arson \u2014 Solar Panels"
+        elif any(kw in s for kw in ("accident", "accidental", "trash", "ethanol")):
+            badge_txt = "Not Arson \u2014 Accidental"
+        else:
+            badge_txt = "Not Arson"
+
+    elif "unconfirmed" in s:
+        data_status = "unknown"
+        badge_cls = "badge--unknown"
+        badge_txt = "Unconfirmed"
+
+    elif "undetermined" in s:
+        data_status = "unknown"
+        badge_cls = "badge--unknown"
+        badge_txt = "Cause Undetermined"
+
+    else:
+        data_status = "unknown"
+        badge_cls = "badge--unknown"
+        badge_txt = "Under Investigation"
+
+    l = labor.lower()
+    labor_txt = "Explicit Wage Protest" if "explicit" in l else None
+
+    return data_status, badge_cls, badge_txt, labor_txt
+
+
+def parse_incident(path):
+    """Parse a fire incident .md file. Returns a metadata dict."""
+    text = path.read_text(encoding="utf-8")
+    lines = text.splitlines()
+
+    # Line 0: H1
+    h1 = lines[0][2:].strip() if lines and lines[0].startswith("# ") else ""
+    date_str, location, facility = _parse_h1(h1)
+
+    # Lines 1+: key-value metadata before the first --- or ##
+    meta = {}
+    meta_order = []
+    i = 1
+    while i < len(lines):
+        s = lines[i].strip()
+        if s == "---" or s.startswith("## "):
+            break
+        m = re.match(r"^\*\*(.+?):\*\*\s*(.*)", s)
+        if m:
+            key, val = m.group(1).strip(), m.group(2).strip()
+            if key not in meta:
+                meta_order.append(key)
+            meta[key] = val
+        i += 1
+
+    # Advance past the first --- separator
+    while i < len(lines) and lines[i].strip() != "---":
+        i += 1
+    if i < len(lines):
+        i += 1  # consume ---
+
+    # Split remaining content into (heading, body_text) sections at ## lines
+    sections = []
+    cur_head = None
+    cur_body = []
+
+    while i < len(lines):
+        s = lines[i].strip()
+        if re.match(r"^## ", s):
+            if cur_head is not None:
+                sections.append((cur_head, "\n".join(cur_body).strip()))
+            cur_head = s[3:].strip()
+            cur_body = []
+        elif _is_hr(s):
+            pass  # skip inter-section rules
+        else:
+            cur_body.append(lines[i])
+        i += 1
+
+    if cur_head is not None:
+        sections.append((cur_head, "\n".join(cur_body).strip()))
+
+    # Badge data
+    status = meta.get("Status", "")
+    labor = meta.get("Labor/Wage Connection", "")
+    data_status, badge_cls, badge_txt, labor_txt = _derive_badges(status, labor)
+
+    # Card summary: first prose paragraph from the first section
+    summary = ""
+    if sections:
+        for line in sections[0][1].splitlines():
+            ls = line.strip()
+            if not ls:
+                if summary:
+                    break
+            elif not (ls.startswith(("#", ">", "-", "*", "+", "|"))
+                      or re.match(r"^\d+[.)]\s", ls)):
+                summary += (" " if summary else "") + ls
+
+    return {
+        "path": path,
+        "stem": path.stem,
+        "h1": h1,
+        "date_str": date_str,
+        "location": location,
+        "facility": facility,
+        "meta": meta,
+        "meta_order": meta_order,
+        "sections": sections,
+        "status": status,
+        "labor": labor,
+        "data_status": data_status,
+        "badge_cls": badge_cls,
+        "badge_txt": badge_txt,
+        "labor_txt": labor_txt,
+        "summary": summary,
+    }
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Generic (non-incident) Markdown Parser  (history.md, etc.)
+# ─────────────────────────────────────────────────────────────────────────────
+
+def parse_generic(path):
+    """Parse a generic markdown file (no incident metadata header).
+
+    Returns { title, dateline, sections: [(heading, body_text)] }.
+    """
+    text = path.read_text(encoding="utf-8")
+    lines = text.splitlines()
+
+    # H1
+    title = lines[0][2:].strip() if lines and lines[0].startswith("# ") else ""
+
+    # Preamble metadata (bold key: value lines before first ---)
+    meta = {}
+    i = 1
+    while i < len(lines):
+        s = lines[i].strip()
+        if s == "---" or s.startswith("## "):
+            break
+        m = re.match(r"^\*\*(.+?):\*\*\s*(.*)", s)
+        if m:
+            meta[m.group(1).strip()] = m.group(2).strip()
+        i += 1
+
+    # Skip past first ---
+    while i < len(lines) and lines[i].strip() != "---":
+        i += 1
+    if i < len(lines):
+        i += 1
+
+    # Parse sections
+    sections = []
+    cur_head = None
+    cur_body = []
+
+    while i < len(lines):
+        s = lines[i].strip()
+        if re.match(r"^## ", s):
+            if cur_head is not None:
+                sections.append((cur_head, "\n".join(cur_body).strip()))
+            cur_head = s[3:].strip()
+            cur_body = []
+        elif _is_hr(s):
+            pass
+        else:
+            cur_body.append(lines[i])
+        i += 1
+
+    if cur_head is not None:
+        sections.append((cur_head, "\n".join(cur_body).strip()))
+
+    dateline = meta.get("Research date", RESEARCH_DATE)
+
+    return {"title": title, "dateline": dateline, "sections": sections}
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# INDEX.md Parser
+# ─────────────────────────────────────────────────────────────────────────────
+
+def parse_index(path):
+    """Extract stats and context paragraph from INDEX.md."""
+    text = path.read_text(encoding="utf-8")
+    lines = text.splitlines()
+
+    stats = {}  # label → count (from At a Glance table)
+    context_lines = []
+    in_glance = False
+    in_summary = False
+
+    for line in lines:
+        s = line.strip()
+
+        # Detect section headings
+        if s == "## At a Glance":
+            in_glance = True
+            in_summary = False
+            continue
+        if s == "## Summary of Findings":
+            in_glance = False
+            in_summary = True
+            continue
+        if s.startswith("## ") and in_summary:
+            in_summary = False
+            continue
+
+        # Parse At a Glance table
+        if in_glance and "|" in s and not _is_table_sep(s):
+            parts = [c.strip().strip("*") for c in s.strip().strip("|").split("|")]
+            if len(parts) >= 2 and re.match(r"^\d+$", parts[-1]):
+                label = parts[0].strip("*").strip()
+                count = int(parts[-1])
+                # Skip sub-items (lines starting with —)
+                if not label.startswith("\u2014") and not label.startswith("--"):
+                    stats[label] = count
+
+        # Collect Summary of Findings as context paragraph
+        if in_summary and s and not s.startswith("#"):
+            if s == "---":
+                in_summary = False
+            elif s.startswith(">"):
+                context_lines.append(s[1:].lstrip())
+            else:
+                context_lines.append(s)
+
+    return {"stats": stats, "context_lines": context_lines}
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Page Component Helpers
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _masthead(home_href):
+    return f"""\
+  <header>
+    <div class="masthead">
+      <p class="masthead__eyebrow">Independent Research \u00b7 {RESEARCH_DATE}</p>
+      <a href="{esc_attr(home_href)}" class="masthead__title">Warehouse Fires</a>
+    </div>
+  </header>"""
+
+
+def _breadcrumb(home_href, current_label):
+    return f"""\
+    <nav aria-label="Breadcrumb">
+      <ol class="breadcrumb">
+        <li><a href="{esc_attr(home_href)}">All incidents</a></li>
+        <li aria-current="page">{esc(current_label)}</li>
+      </ol>
+    </nav>"""
+
+
+def _fire_meta_box(meta, meta_order):
+    """Render the .fire-meta <dl> block from metadata dict."""
+    items = []
+    for key in meta_order:
+        val = meta[key]
+        # Normalise label: "Date/Time" → "Date &amp; Time"
+        label = key.replace("Date/Time", "Date \u0026 Time")
+        items.append(
+            f"          <div>\n"
+            f"            <dt>{esc(label)}</dt>\n"
+            f"            <dd>{inline(val)}</dd>\n"
+            f"          </div>"
+        )
+    return (
+        "      <div class=\"fire-meta\">\n"
+        "        <dl>\n"
+        + "\n".join(items)
+        + "\n        </dl>\n"
+        "      </div>"
+    )
+
+
+def _badges_html(badge_cls, badge_txt, labor_txt):
+    spans = [f'<span class="badge {badge_cls}">{esc(badge_txt)}</span>']
+    if labor_txt:
+        spans.append(f'<span class="badge badge--labor">{esc(labor_txt)}</span>')
+    return f'<div class="card__badges">{" ".join(spans)}</div>'
+
+
+def _render_sections(sections):
+    """Render a list of (heading, body_text) tuples as <section> elements."""
+    parts = []
+    for heading, body in sections:
+        cls = ' class="sources"' if heading.lower() == "sources" else ""
+        inner = render_blocks(body)
+        parts.append(
+            f"      <section{cls}>\n"
+            f"        <h2>{esc(heading)}</h2>\n"
+            f"{_indent(inner, 8)}\n"
+            f"      </section>"
+        )
+    return "\n\n".join(parts)
+
+
+def _indent(text, spaces):
+    prefix = " " * spaces
+    return "\n".join(prefix + line if line.strip() else line for line in text.splitlines())
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Page Builders
+# ─────────────────────────────────────────────────────────────────────────────
+
+def build_incident_html(inc):
+    """Generate the full HTML string for a fire incident detail page."""
+    date_full = fmt_date_full(inc["date_str"]) if inc["date_str"] else RESEARCH_DATE
+    location_full = expand_state(inc["location"]) if inc["location"] else ""
+    dateline = f"{date_full} \u00b7 {location_full}" if location_full else date_full
+
+    breadcrumb_label = (
+        f"{inc['location']} \u2014 {inc['facility']}"
+        if inc["location"]
+        else inc["facility"]
+    )
+
+    page_title = (
+        f"{inc['facility']} \u2014 {inc['location']} \u2014 Warehouse Fires"
+        if inc["location"]
+        else f"{inc['facility']} \u2014 Warehouse Fires"
+    )
+
+    # Build meta description from status + first sentence of summary
+    first_sentence = re.split(r"(?<=[.!?])\s", inc["summary"])[:1]
+    description = f"{inc['date_str']}: {inc['status']}. {first_sentence[0] if first_sentence else ''}"
+
+    badges = _badges_html(inc["badge_cls"], inc["badge_txt"], inc["labor_txt"])
+    meta_box = _fire_meta_box(inc["meta"], inc["meta_order"])
+    sections_html = _render_sections(inc["sections"])
+
+    return f"""\
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{esc(page_title)}</title>
+  <meta name="description" content="{esc_attr(description)}">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+{_masthead('../index.html')}
+
+  <main id="main">
+{_breadcrumb('../index.html', breadcrumb_label)}
+
+    <article class="fire">
+      <header>
+        <p class="card__dateline">{esc(dateline)}</p>
+        <h1>{esc(inc['facility'])}</h1>
+        {badges}
+      </header>
+
+{meta_box}
+
+{sections_html}
+    </article>
+  </main>
+
+  <footer>
+    <p>Part of the <a href="../index.html">Warehouse Fires</a> research project. Research date: {RESEARCH_DATE}.</p>
+  </footer>
+</body>
+</html>"""
+
+
+def build_generic_html(data, css_href, home_href, breadcrumb_label):
+    """Generate a full HTML page for a generic (non-incident) markdown file.
+
+    Used for history.html and similar pages.
+    """
+    title = data["title"]
+    dateline = data.get("dateline", RESEARCH_DATE)
+    sections_html = _render_sections(data["sections"])
+
+    page_title = f"{title} \u2014 Warehouse Fires"
+
+    return f"""\
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{esc(page_title)}</title>
+  <meta name="description" content="{esc_attr(title)}">
+  <link rel="stylesheet" href="{esc_attr(css_href)}">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+{_masthead(home_href)}
+
+  <main id="main">
+{_breadcrumb(home_href, breadcrumb_label)}
+
+    <article class="fire">
+      <header>
+        <p class="card__dateline">Research date: {RESEARCH_DATE}</p>
+        <h1>{esc(title)}</h1>
+      </header>
+
+{sections_html}
+    </article>
+  </main>
+
+  <footer>
+    <p>Part of the <a href="{esc_attr(home_href)}">Warehouse Fires</a> research project. Research date: {RESEARCH_DATE}.</p>
+  </footer>
+</body>
+</html>"""
+
+
+def build_index_html(incidents, index_data):
+    """Generate web/index.html from all incident data and INDEX.md metadata."""
+
+    # Counts
+    total = len(incidents)
+    n_arson = sum(1 for inc in incidents if inc["data_status"] == "arson")
+    n_not_arson = sum(1 for inc in incidents if inc["data_status"] == "not-arson")
+    n_unknown = sum(1 for inc in incidents if inc["data_status"] == "unknown")
+    n_labor = sum(1 for inc in incidents if inc["labor_txt"] is not None)
+
+    # Stats bar
+    stats_html = f"""\
+    <section aria-label="Summary statistics">
+      <div class="stats" role="list">
+        <div class="stats__item" role="listitem">
+          <span class="stats__value">{total}</span>
+          <span class="stats__label">Total incidents</span>
+        </div>
+        <div class="stats__item" role="listitem">
+          <span class="stats__value">{n_arson}</span>
+          <span class="stats__label">Confirmed arson</span>
+        </div>
+        <div class="stats__item" role="listitem">
+          <span class="stats__value">{n_labor}</span>
+          <span class="stats__label">Explicit wage motive</span>
+        </div>
+        <div class="stats__item" role="listitem">
+          <span class="stats__value">{n_not_arson}</span>
+          <span class="stats__label">Not arson</span>
+        </div>
+        <div class="stats__item" role="listitem">
+          <span class="stats__value">{n_unknown}</span>
+          <span class="stats__label">Under investigation</span>
+        </div>
+      </div>
+    </section>"""
+
+    # Context paragraph from INDEX.md Summary of Findings
+    context_text = " ".join(index_data.get("context_lines", []))
+    context_html = ""
+    if context_text:
+        history_link = '<a href="fires/history.html">historical baseline statistics</a>'
+        context_html = f"""\
+    <section class="context" aria-label="Background">
+      <p>{inline(context_text)} See the {history_link} for full data and source citations.</p>
+    </section>"""
+
+    # Filter widget
+    filter_html = f"""\
+    <div aria-live="polite" aria-atomic="true" id="filter-live"></div>
+
+    <fieldset>
+      <legend>Filter by arson status</legend>
+      <div class="filter__options">
+        <label class="filter__option">
+          <input type="radio" name="filter" value="all" checked>
+          <span>All <span class="filter__count" aria-hidden="true">{total}</span></span>
+        </label>
+        <label class="filter__option">
+          <input type="radio" name="filter" value="arson">
+          <span>Arson <span class="filter__count" aria-hidden="true">{n_arson}</span></span>
+        </label>
+        <label class="filter__option">
+          <input type="radio" name="filter" value="not-arson">
+          <span>Not arson <span class="filter__count" aria-hidden="true">{n_not_arson}</span></span>
+        </label>
+        <label class="filter__option">
+          <input type="radio" name="filter" value="unknown">
+          <span>Unknown <span class="filter__count" aria-hidden="true">{n_unknown}</span></span>
+        </label>
+      </div>
+    </fieldset>"""
+
+    # Feed items (reverse-chronological by filename date)
+    sorted_incidents = sorted(incidents, key=lambda x: x["date_str"], reverse=True)
+
+    feed_items = []
+    for inc in sorted_incidents:
+        date_abbr = fmt_date_abbr(inc["date_str"]) if inc["date_str"] else ""
+        dateline = f"{date_abbr} \u00b7 {esc(inc['location'])}" if inc["location"] else date_abbr
+
+        card_title = (
+            f"{inc['facility']} \u2014 {expand_state(inc['location'])}"
+            if inc["location"]
+            else inc["facility"]
+        )
+
+        href = f"fires/{inc['stem']}.html"
+
+        badges = _badges_html(inc["badge_cls"], inc["badge_txt"], inc["labor_txt"])
+
+        summary_html = f"<p>{esc(inc['summary'])}</p>" if inc["summary"] else ""
+
+        read_more_label = f"Read full report: {inc['facility']}, {inc['location']}" if inc["location"] else f"Read full report: {inc['facility']}"
+
+        primary_attr = " data-primary" if inc["labor_txt"] else ""
+
+        feed_items.append(
+            f'      <li data-status="{inc["data_status"]}"{primary_attr}>\n'
+            f"        <article>\n"
+            f"          <header>\n"
+            f'            <p class="card__dateline">{dateline}</p>\n'
+            f'            <h2><a href="{esc_attr(href)}">{esc(card_title)}</a></h2>\n'
+            f"            {badges}\n"
+            f"          </header>\n"
+            + (f"          {summary_html}\n" if summary_html else "")
+            + f'          <footer class="card__footer">\n'
+            f'            <a href="{esc_attr(href)}" aria-label="{esc_attr(read_more_label)}">Read full report \u2192</a>\n'
+            f"          </footer>\n"
+            f"        </article>\n"
+            f"      </li>"
+        )
+
+    feed_html = (
+        '    <ol class="feed" aria-label="Incident feed">\n\n'
+        + "\n\n".join(feed_items)
+        + "\n\n    </ol>"
+    )
+
+    # Filter script (same as in the existing hand-crafted index.html)
+    script = """\
+  <script>
+    (function () {
+      var inputs = document.querySelectorAll('fieldset input[type="radio"]');
+      var items  = document.querySelectorAll('.feed > li[data-status]');
+      var live   = document.getElementById('filter-live');
+      var total  = items.length;
+
+      inputs.forEach(function (input) {
+        input.addEventListener('change', function () {
+          var val = input.value;
+          var visible = 0;
+
+          items.forEach(function (item) {
+            var match = val === 'all' || item.dataset.status === val;
+            item.hidden = !match;
+            if (match) visible++;
+          });
+
+          live.textContent = val === 'all'
+            ? 'Showing all ' + total + ' incidents.'
+            : 'Showing ' + visible + ' of ' + total + ' incidents.';
+        });
+      });
+    }());
+  </script>"""
+
+    main_content = "\n\n".join(filter(None, [
+        stats_html,
+        context_html,
+        filter_html,
+        feed_html,
+    ]))
+
+    masthead_html = f"""\
+  <header>
+    <div class="masthead">
+      <p class="masthead__eyebrow">Independent Research \u00b7 {RESEARCH_DATE}</p>
+      <h1 class="masthead__title">Warehouse Fires</h1>
+      <p class="masthead__subtitle">A running account of U.S. warehouse and industrial fires, 2025\u20132026</p>
+      <p class="masthead__meta">{total} incidents documented \u00b7 Confirming fact, correcting speculation</p>
+    </div>
+  </header>"""
+
+    footer_html = f"""\
+    <p>Research date: {RESEARCH_DATE}. See <a href="fires/history.html">historical baseline statistics</a> for context. Sources verified and cited in each incident report.</p>
+    <p class="footer__ai-note">{esc(AI_DISCLOSURE)}</p>"""
+
+    return f"""\
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Warehouse Fires \u2014 U.S. Industrial Fire Research, 2025\u20132026</title>
+  <meta name="description" content="A rigorous source of truth for U.S. warehouse and industrial fires following the April 7, 2026 Kimberly-Clark arson in Ontario, CA. Separating confirmed fact from speculation.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+{masthead_html}
+
+  <main id="main">
+
+{main_content}
+
+  </main>
+
+  <footer>
+{footer_html}
+  </footer>
+
+{script}
+</body>
+</html>"""
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Build Targets
+# ─────────────────────────────────────────────────────────────────────────────
+
+def build_incidents():
+    """Build all web/fires/YYYY-MM-DD-*.html incident pages."""
+    WEB_FIRES_DIR.mkdir(parents=True, exist_ok=True)
+    paths = sorted(
+        p for p in FIRES_DIR.glob("????-??-??-*.md")
+        if p.name not in ("INDEX.md", "history.md")
+    )
+    if not paths:
+        print("No incident files found in", FIRES_DIR)
+        return []
+
+    incidents = []
+    for path in paths:
+        inc = parse_incident(path)
+        incidents.append(inc)
+        out_path = WEB_FIRES_DIR / (path.stem + ".html")
+        html = build_incident_html(inc)
+        out_path.write_text(html, encoding="utf-8")
+        print(f"  wrote {out_path.relative_to(REPO)}")
+
+    return incidents
+
+
+def build_history():
+    """Build web/fires/history.html from fires/history.md."""
+    WEB_FIRES_DIR.mkdir(parents=True, exist_ok=True)
+    src = FIRES_DIR / "history.md"
+    if not src.exists():
+        print(f"  {src} not found — skipping history page")
+        return
+
+    data = parse_generic(src)
+    html = build_generic_html(
+        data,
+        css_href="../style.css",
+        home_href="../index.html",
+        breadcrumb_label="Historical baseline statistics",
+    )
+    out = WEB_FIRES_DIR / "history.html"
+    out.write_text(html, encoding="utf-8")
+    print(f"  wrote {out.relative_to(REPO)}")
+
+
+def build_index(incidents=None):
+    """Build web/index.html from fires/INDEX.md + incident data."""
+    if incidents is None:
+        # Parse incident files without writing them (for index-only rebuilds)
+        paths = sorted(
+            p for p in FIRES_DIR.glob("????-??-??-*.md")
+            if p.name not in ("INDEX.md", "history.md")
+        )
+        incidents = [parse_incident(p) for p in paths]
+
+    index_src = FIRES_DIR / "INDEX.md"
+    index_data = parse_index(index_src) if index_src.exists() else {}
+
+    html = build_index_html(incidents, index_data)
+    out = WEB_DIR / "index.html"
+    out.write_text(html, encoding="utf-8")
+    print(f"  wrote {out.relative_to(REPO)}")
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Entry Point
+# ─────────────────────────────────────────────────────────────────────────────
+
+def main():
+    targets = set(sys.argv[1:]) or {"all"}
+
+    print("Building Warehouse Fires site...")
+
+    if "all" in targets or "fires" in targets:
+        print("\nIncident pages:")
+        incidents = build_incidents()
+    else:
+        incidents = None
+
+    if "all" in targets or "history" in targets:
+        print("\nHistory page:")
+        build_history()
+
+    if "all" in targets or "index" in targets:
+        print("\nIndex page:")
+        build_index(incidents)
+
+    print("\nDone.")
+
+
+if __name__ == "__main__":
+    main()

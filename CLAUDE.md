@@ -12,6 +12,8 @@ This project exists to **cut through that noise**: rigorously document what actu
 
 ## Research Process
 
+Only look for reports from 2026-04-07 or later. We are not interested in historical fires earlier that, unless they have a direct link or special relevance to current events.
+
 ### Step 1 — Social Media Sweep
 
 Start with social media to find what's circulating and to surface fire incidents that may not yet have major news coverage:
