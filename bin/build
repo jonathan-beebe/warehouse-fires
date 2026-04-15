@@ -1017,6 +1017,13 @@ def build_index_html(incidents, index_data):
     <p>Research date: {RESEARCH_DATE}. See <a href="fires/history.html">historical baseline statistics</a> for context. Sources verified and cited in each incident report.</p>
     <p class="footer__ai-note">{esc(AI_DISCLOSURE)}</p>"""
 
+    page_description = (
+        f"{total} U.S. warehouse and industrial fires documented since the April 7, 2026 "
+        f"Kimberly-Clark arson in Ontario, CA. {n_arson} confirmed arson, "
+        f"{n_not_arson} not arson, {n_unknown} under investigation. "
+        f"Separating confirmed fact from speculation."
+    )
+
     return f"""\
 <!DOCTYPE html>
 <html lang="en">
@@ -1024,7 +1031,13 @@ def build_index_html(incidents, index_data):
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Warehouse Fires \u2014 U.S. Industrial Fire Research, 2026</title>
-  <meta name="description" content="A rigorous source of truth for U.S. warehouse and industrial fires following the April 7, 2026 Kimberly-Clark arson in Ontario, CA. Separating confirmed fact from speculation.">
+  <meta name="description" content="{esc_attr(page_description)}">
+  <meta property="og:title" content="Warehouse Fires \u2014 {total} Incidents Documented">
+  <meta property="og:description" content="{esc_attr(page_description)}">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Warehouse Fires \u2014 {total} Incidents Documented">
+  <meta name="twitter:description" content="{esc_attr(page_description)}">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
