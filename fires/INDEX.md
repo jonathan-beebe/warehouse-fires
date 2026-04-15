@@ -9,15 +9,15 @@
 
 | | Count |
 |---|---|
-| **Total incidents documented** | **12** |
+| **Total incidents documented** | **14** |
 | Confirmed arson (charges filed) | 2 |
 | — with explicit labor/wage motive | 1 |
 | — with job-loss/employment motive | 1 |
-| Confirmed NOT arson | 4 |
-| Under investigation / cause undetermined | 5 |
+| Confirmed NOT arson | 5 |
+| Under investigation / cause undetermined | 6 |
 | Unconfirmed (no news coverage found) | 1 |
 
-**Of the 12 incidents, only 1 is a confirmed warehouse arson with an explicit labor/wage motive: the April 7, 2026 Kimberly-Clark fire in Ontario, CA.**
+**Of the 13 incidents, only 1 is a confirmed warehouse arson with an explicit labor/wage motive: the April 7, 2026 Kimberly-Clark fire in Ontario, CA.**
 
 > The other 11 incidents are fires that generated online noise in the same period — most are under investigation or have confirmed non-arson causes. This index exists to separate confirmed fact from speculation.
 
@@ -27,7 +27,7 @@
 
 The dominant story is the **April 7, 2026 Kimberly-Clark Distribution Center arson** in Ontario, CA — the first nationally covered case of a warehouse worker explicitly filming himself committing arson and stating *"All you had to do was pay us enough to live"* as the motive. This has triggered national conversation about warehouse labor conditions.
 
-It is part of a broader pattern: in the 7 days following that arson, **at least 9 additional significant industrial fires** occurred across the United States. Only two are confirmed arson (Ontario and Flushing/Queens — the latter a residential building). Of the remaining 10, four have confirmed non-arson causes (solar panels, ethanol vapor, accidental trash fire, EV battery). Five remain under investigation. One (West Jefferson, NC) has no confirmed news coverage at all.
+It is part of a broader pattern: in the 7 days following that arson, **at least 11 additional significant industrial fires** occurred across the United States. Only two are confirmed arson (Ontario and Flushing/Queens — the latter a residential building). Of the remaining 12, five have confirmed non-arson causes (solar panels, ethanol vapor, accidental trash fire, EV battery, magnesium dust). Six remain under investigation. One (West Jefferson, NC) has no confirmed news coverage at all.
 
 ---
 
@@ -47,6 +47,8 @@ It is part of a broader pattern: in the 7 days following that arson, **at least 
 | 2026-04-11/12 | Wayne County, OH | Southwood Lumber Pallet, 8849 Lincoln Way E., Orrville | Under investigation | None reported | [link](2026-04-11-wayne-county-oh-southwood-lumber-pallet-orrville.md) |
 | 2026-04-11 | Cahokia Heights, IL | Patterson Towing lot (~100 vehicles, near East St. Louis) | No — electric car battery | None | [link](2026-04-11-cahokia-heights-il-patterson-towing-lot.md) |
 | 2026-04-13 | West Jefferson, NC | Amazon (alleged — UNCONFIRMED) | Unknown | Unknown | [link](2026-04-13-west-jefferson-nc-amazon-unconfirmed.md) |
+| 2026-04-14 | Compton, CA | Magnesium Alloy Products Co. (2420 N Alameda St) | No — industrial accident (magnesium dust) | None | [link](2026-04-14-compton-ca-magnesium-alloy-products.md) |
+| 2026-04-14 | Mobile, AL | Kimberly-Clark facility (200 Africatown Blvd) | Under investigation | None reported | [link](2026-04-14-mobile-al-kimberly-clark.md) |
 
 ---
 
@@ -79,6 +81,8 @@ The watershed event in this research:
 | Apr 11/12 | Wayne County, OH | Southwood Lumber Pallet | Under investigation |
 | Apr 11 | Cahokia Heights, IL | Patterson Towing (~100 cars) | No (EV battery) |
 | Apr 13 | West Jefferson, NC | Amazon (alleged) | **Unconfirmed** |
+| Apr 14 | Compton, CA | Magnesium Alloy Products Co. (foundry) | No (magnesium dust ignition) |
+| Apr 14 | Mobile, AL | Kimberly-Clark facility (Africatown Blvd) | Under investigation |
 
 ---
 
