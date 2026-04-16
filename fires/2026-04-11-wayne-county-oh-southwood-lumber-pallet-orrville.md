@@ -11,15 +11,15 @@
 
 ## The Fire
 
-A five-alarm fire broke out at Southwood Lumber Pallet Inc., a pallet and lumber business that has operated for 42 years. The initial dispatch came from Apple Creek Volunteer Fire Department just before 8 p.m.
+A five-alarm fire broke out at Southwood Lumber Pallet Inc., a pallet and lumber business that has operated for 42 years. The initial dispatch came from Apple Creek Volunteer Fire Department just before 8 p.m., triggered by an automated security system heat warning that alerted the company.
 
-The roof of the main building collapsed shortly after crews arrived. A total of **24 fire departments** responded with:
+The roof of the main building collapsed shortly after crews arrived, forcing defensive fire operations. A total of **24 fire departments** responded with:
 - Over 75 firefighters
 - More than 30 apparatus
 - More than **500,000 gallons of water** used to fight the blaze
 - East Lincoln Way temporarily closed
 
-Crews remained on scene until approximately 1 a.m. The fire was eventually upgraded to 7 alarms for assistance with water supply.
+Crews remained on scene until approximately 1 a.m. The fire was eventually upgraded to 7 alarms for assistance with water supply. Firewalls inside the facility are credited with preventing greater destruction.
 
 ---
 
@@ -37,7 +37,9 @@ The cause of the fire is under investigation by the Ohio State Fire Marshal's Of
 
 ## Business Impact
 
-Southwood Lumber Pallet, in business for 42 years, stated they are "grateful no one was injured" and plan to rebuild. The business is working with investigators and their insurance carrier on recovery. Community members have rallied to support the business following the fire.
+Kevin Weaver, Vice President of Operations, stated: ["We've been around for 42 years, we're going to rebuild and be better than ever."](https://www.aol.com/news/community-rallies-around-local-business-011744360.html) The business is working with investigators and their insurance carrier on recovery. The main production area was destroyed; Weaver noted that firewalls inside the building helped limit the spread.
+
+Community members have also rallied in support. Local resident Tom Robison organized fundraising efforts through local churches and businesses to assist affected employees.
 
 ---
 

@@ -11,6 +11,21 @@ The April 7, 2026 Kimberly-Clark fire in Ontario, CA caused an estimated **$500�
 
 ---
 
+## Social Media Statistical Claims — Fact Check
+
+As the April 2026 fire cluster spread online, social media accounts began circulating statistical context. The most-shared claim:
+
+> *"The US averages a little over 4 warehouse fires a day even when society isn't falling apart in real-time."*
+> — [Threads @factcheckjeff](https://www.threads.com/@factcheckjeff/post/DXLCEoEDHxO)
+
+**Verdict: Accurate.** The NFPA's most recent published data (Tucker McGree, February 2026, covering 2018–2022) shows an average of ~1,508 warehouse structure fires per year. Divided by 365, that is approximately **4.1 fires per day**. The 2022 data point of ~1,685 fires yields ~4.6/day. The "a little over 4" figure is consistent with NFPA data across all recent measurement windows.
+
+A comment in the same Threads thread noted: *"The U.S. averages 28 warehouse fires a week, for the record. Over 1,500 warehouse fires a year."* This is also consistent with NFPA data.
+
+**Context for what this means:** The claim is accurate but requires careful interpretation. The U.S. has hundreds of thousands of warehouses and industrial facilities. A rate of ~4/day, nationally, is low on a per-facility basis. What is *not* normal is a single fire causing $500–650M in damage (equal to the *entire annual national average*), or a fire accompanied by a filmed confession stating a labor motive. The "fires happen all the time" framing — while statistically true — should not be used to dismiss the significance of the Ontario CA incident or to imply that all fires in April 2026 are politically motivated.
+
+---
+
 ## Long-Term Trend (1980–2022)
 
 U.S. warehouse fires have declined dramatically over four decades:
@@ -150,3 +165,4 @@ The Ontario case is the first in the current dataset with an on-camera, explicit
 - [**NFPA Warehouse Fire Safety Fact Sheet**](https://www.nfpa.org/forms/warehouse-fire-safety-fact-sheet) (2022, NFIRS data 2016–2020). Secondary source; 15% arson figure. Accessed April 14, 2026.
 - [**USFA Topical Fire Research Series, "Arson in the United States"** — Vol. 1, Issue 8 (U.S. Fire Administration / FEMA, 2001)](https://apps.usfa.fema.gov/downloads/pdf/statistics/v1i8-508.pdf). Structural arson analysis; source of the 267,000 annual arson fires figure. Accessed April 14, 2026.
 - [**Facts + Statistics: Fire** — Insurance Information Institute (III)](https://www.iii.org/fact-statistic/facts-statistics-fire). U.S. structure fire statistics 2015–2024, citing NFPA data. Archived table (2014–2023): [iii.org/table-archive/20411](https://www.iii.org/table-archive/20411). Accessed April 14, 2026.
+- [**Threads @factcheckjeff** — "The US averages a little over 4 warehouse fires a day even when society isn't falling apart in real-time."](https://www.threads.com/@factcheckjeff/post/DXLCEoEDHxO) Social media post citing NFPA baseline; claim verified accurate against NFPA data.

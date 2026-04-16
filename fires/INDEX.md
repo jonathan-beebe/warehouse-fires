@@ -1,6 +1,6 @@
 # Warehouse Fires — Research Index
 
-**Research date:** April 14, 2026  
+**Research date:** April 16, 2026 (updated)  
 **Focus:** U.S. warehouse/industrial fires in 2026, particularly incidents involving arson or suspected connections to labor/wage protests.
 
 ---
@@ -9,17 +9,18 @@
 
 | | Count |
 |---|---|
-| **Total incidents documented** | **14** |
-| Confirmed arson (charges filed) | 2 |
+| **Total incidents documented** | **17** |
+| Confirmed arson (charges filed) | 3 |
 | — with explicit labor/wage motive | 1 |
 | — with job-loss/employment motive | 1 |
+| — with political/anti-Musk motive (ATF confirmed device) | 1 |
 | Confirmed NOT arson | 5 |
-| Under investigation / cause undetermined | 6 |
-| Unconfirmed (no news coverage found) | 1 |
+| Under investigation / cause undetermined | 7 |
+| Unconfirmed (no news coverage found) | 2 |
 
-**Of the 13 incidents, only 1 is a confirmed warehouse arson with an explicit labor/wage motive: the April 7, 2026 Kimberly-Clark fire in Ontario, CA.**
+**Of the 17 incidents, only 1 is a confirmed warehouse arson with an explicit labor/wage motive: the April 7, 2026 Kimberly-Clark fire in Ontario, CA.**
 
-> The other 11 incidents are fires that generated online noise in the same period — most are under investigation or have confirmed non-arson causes. This index exists to separate confirmed fact from speculation.
+> The other 16 incidents are fires that generated online noise in the same period — most are under investigation or have confirmed non-arson causes. This index exists to separate confirmed fact from speculation.
 
 ---
 
@@ -27,7 +28,7 @@
 
 The dominant story is the **April 7, 2026 Kimberly-Clark Distribution Center arson** in Ontario, CA — the first nationally covered case of a warehouse worker explicitly filming himself committing arson and stating *"All you had to do was pay us enough to live"* as the motive. This has triggered national conversation about warehouse labor conditions.
 
-It is part of a broader pattern: in the 7 days following that arson, **at least 11 additional significant industrial fires** occurred across the United States. Only two are confirmed arson (Ontario and Flushing/Queens — the latter a residential building). Of the remaining 12, five have confirmed non-arson causes (solar panels, ethanol vapor, accidental trash fire, EV battery, magnesium dust). Six remain under investigation. One (West Jefferson, NC) has no confirmed news coverage at all.
+It is part of a broader pattern: in the 9 days following that arson, **at least 14 additional significant fires** occurred across the United States that generated social media circulation. Only three more are confirmed arson (Ontario Mills Mall; Flushing/Queens residential; Tesla New Orleans Molotov — the latter two unrelated to warehouse labor). Of the remaining group, five have confirmed non-arson causes (solar panels, ethanol vapor, accidental trash fire, EV battery, magnesium dust). Six remain under investigation. Two (West Jefferson, NC and Rahway, NJ) have no confirmed news coverage at all.
 
 ---
 
@@ -42,13 +43,16 @@ It is part of a broader pattern: in the 7 days following that arson, **at least 
 | 2026-04-08/09 | East Providence, RI | Aspen Aerogels manufacturing plant | No — ethanol vapor (accident) | None | [link](2026-04-08-east-providence-ri-aspen-aerogels.md) |
 | 2026-04-09 | Newark, NJ | Chemical warehouse, 104 Lister Ave (Ironbound) | Under investigation | None reported | [link](2026-04-09-newark-nj-lister-ave-chemical-warehouse.md) |
 | 2026-04-10 | Lawrenceville, GA | GSL Transfer Station (near Gwinnett Co. Airport) | No — accidental | None | [link](2026-04-10-lawrenceville-ga-gsl-transfer-station.md) |
-| 2026-04-10/11 | College Point, Queens, NY | Lumberyard warehouse | Under investigation | None reported | [link](2026-04-10-college-point-queens-ny-lumberyard-warehouse.md) |
-| 2026-04-11 | Bakersfield, CA | Abandoned warehouse, 99 Washington St (spread to SA Recycling) | Under investigation | None reported | [link](2026-04-11-bakersfield-ca-washington-st-abandoned-warehouse.md) |
+| 2026-04-10 | Ontario, CA | Ontario Mills Mall (multiple retail stores) | **YES — confirmed arson** | None | [link](2026-04-10-ontario-ca-ontario-mills-mall.md) |
+| 2026-04-10/11 | College Point, Queens, NY | One Stop Lumber & Floor Coverings (130-17 23rd Ave) | Under investigation | None reported | [link](2026-04-10-college-point-queens-ny-lumberyard-warehouse.md) |
+| 2026-04-11 | Bakersfield, CA | Abandoned warehouse, 99 Washington St (spread to SA Recycling); **4th fire at same site Apr 16** | Under investigation | None reported | [link](2026-04-11-bakersfield-ca-washington-st-abandoned-warehouse.md) |
 | 2026-04-11/12 | Wayne County, OH | Southwood Lumber Pallet, 8849 Lincoln Way E., Orrville | Under investigation | None reported | [link](2026-04-11-wayne-county-oh-southwood-lumber-pallet-orrville.md) |
 | 2026-04-11 | Cahokia Heights, IL | Patterson Towing lot (~100 vehicles, near East St. Louis) | No — electric car battery | None | [link](2026-04-11-cahokia-heights-il-patterson-towing-lot.md) |
-| 2026-04-13 | West Jefferson, NC | Amazon (alleged — UNCONFIRMED) | Unknown | Unknown | [link](2026-04-13-west-jefferson-nc-amazon-unconfirmed.md) |
+| 2026-04-13 | West Jefferson, NC | Amazon (alleged — **likely misidentified Ohio fire**) | No incident confirmed | None | [link](2026-04-13-west-jefferson-nc-amazon-unconfirmed.md) |
 | 2026-04-14 | Compton, CA | Magnesium Alloy Products Co. (2420 N Alameda St) | No — industrial accident (magnesium dust) | None | [link](2026-04-14-compton-ca-magnesium-alloy-products.md) |
 | 2026-04-14 | Mobile, AL | Kimberly-Clark facility (200 Africatown Blvd) | Under investigation | None reported | [link](2026-04-14-mobile-al-kimberly-clark.md) |
+| 2026-04-14 | New Orleans, LA | Tesla sales office, 2801 Tchoupitoulas St (Irish Channel) | Suspected arson — Molotov cocktail (ATF confirmed device) | None (anti-Musk/DOGE) | [link](2026-04-14-new-orleans-la-tesla-sales-office.md) |
+| 2026-04-14 | Rahway, NJ | Unknown facility — **UNCONFIRMED** | Unknown | Unknown | *(no file — no news coverage found)* |
 
 ---
 
@@ -63,7 +67,7 @@ The watershed event in this research:
 - **Self-comparison:** Texted coworker comparing himself to Luigi Mangione (UnitedHealthcare CEO killer)
 - **Social media:** Viral on Threads and Reddit (r/antiwork: "warehouse Luigi")
 - **Charges:** Federal arson (5–20 yrs) + state aggravated arson, 6 counts arson of structure (10 yrs–life total exposure)
-- **Status:** Pleaded not guilty, April 13, 2026
+- **Status:** Pleaded not guilty, April 13, 2026. Next court date: pre-preliminary hearing May 6, 2026.
 
 ---
 
@@ -76,13 +80,16 @@ The watershed event in this research:
 | Apr 8–9 | East Providence, RI | Aspen Aerogels (explosion) | No (ethanol vapors) |
 | Apr 9 | Newark, NJ | Chemical warehouse | Under investigation |
 | Apr 10 | Lawrenceville, GA | GSL Transfer Station | No (accidental) |
-| Apr 10/11 | College Point, Queens, NY | Lumberyard warehouse | Under investigation |
-| Apr 11 | Bakersfield, CA | Abandoned warehouse (spread to SA Recycling) | Under investigation |
+| Apr 10 | Ontario, CA | Ontario Mills Mall (retail, multiple stores) | **YES — confirmed arson** (no labor link) |
+| Apr 10/11 | College Point, Queens, NY | One Stop Lumber & Floor Coverings | Under investigation |
+| Apr 11 | Bakersfield, CA | Abandoned warehouse (spread to SA Recycling); 4th fire Apr 16 | Under investigation |
 | Apr 11/12 | Wayne County, OH | Southwood Lumber Pallet | Under investigation |
 | Apr 11 | Cahokia Heights, IL | Patterson Towing (~100 cars) | No (EV battery) |
-| Apr 13 | West Jefferson, NC | Amazon (alleged) | **Unconfirmed** |
+| Apr 13 | West Jefferson, NC | Amazon (alleged) | **No incident found — likely misidentified Ohio fire** |
 | Apr 14 | Compton, CA | Magnesium Alloy Products Co. (foundry) | No (magnesium dust ignition) |
 | Apr 14 | Mobile, AL | Kimberly-Clark facility (Africatown Blvd) | Under investigation |
+| Apr 14 | New Orleans, LA | Tesla sales office (Molotov cocktail) | Suspected arson — incendiary device (ATF confirmed) |
+| Apr 14 | Rahway, NJ | Unknown — **Unconfirmed** | Unknown |
 
 ---
 
@@ -100,16 +107,39 @@ The watershed event in this research:
 | Apr 11 — Wayne County, OH | Apr 11 (started) / Apr 12 (still active) | Same fire, two dates |
 | Apr 12 — near Gwinnett County Airport | Apr 10, 2026 | Multiple sources confirm Friday Apr 10 |
 | Apr 12 — Wayne County, OH | Same as Apr 11 (above) | Fire crossed midnight |
-| Apr 13 — West Jefferson, NC, Amazon | **Unconfirmed** | No news coverage found |
+| Apr 13 — West Jefferson, NC, Amazon | **No incident found** | No news coverage found; post almost certainly refers to West Jefferson, Ohio fire (Apr 8) |
 
 ---
 
-## What's NOT Found (As of April 14, 2026)
+## Two Distinct Phenomena Being Conflated Online
+
+Social media in April 2026 is circulating fires from two different waves as if they are one:
+
+1. **Worker-motivated warehouse fires** — The April 7 Kimberly-Clark arson sparked a narrative connecting any large industrial fire to labor protest. The only confirmed case with an explicit labor/wage motive remains that single incident.
+
+2. **Anti-Musk/DOGE attacks on Tesla** — A parallel wave of vandalism and arson against Tesla facilities, driven by Elon Musk's political role, predates April 2026 and is tracked separately by CSIS. The April 14 New Orleans Tesla Molotov belongs to this second category, not the first.
+
+The @mamaoffthegrid Threads post (April 14) explicitly merged these two waves, claiming "at least 12 Molotov cocktail and/or warehouse related fires this month." This framing is misleading: it conflates politically motivated attacks on Elon Musk's business with economically motivated worker protests.
+
+---
+
+## What's NOT Found (As of April 16, 2026)
 
 - No confirmed arson at Amazon's Joliet IL, West Jefferson OH, or any other Amazon facility
-- No confirmed arson at Newark NJ, College Point NY, or Bakersfield CA
+- No confirmed arson at Newark NJ, College Point NY, or Bakersfield CA (the KCFD arson investigation page for Washington St. relates to the November 2024 fire, not April 2026)
 - No other documented cases of workers explicitly citing "living wage" as arson motive pre-April 2026
-- No news coverage confirming a West Jefferson, NC Amazon fire on April 13
+- No news coverage confirming a West Jefferson, NC Amazon fire on April 13; the sole source post (@mikebanksmadeit) almost certainly depicts the West Jefferson, Ohio fire (April 8, solar panels) — a separate Threads post by @leftamongthepages explicitly corrects this confusion
+- No news coverage confirming a Rahway, NJ fire on April 14
+- The Leadville, CO cannabis dispensary fire (Floyd's of Leadville, 1100 block of Poplar St) occurred December 18, 2025 — before the April 7, 2026 research scope cutoff — and is not documented in this project
+
+---
+
+## Sources Added April 16, 2026
+
+- [Threads @cloclopuffs96 — compiled list of 11 fires, April 4–14](https://www.threads.com/@cloclopuffs96/post/DXIusiYlBjN) — social media aggregation; includes three new incidents (Ontario CA 4/10, New Orleans 4/14, Rahway NJ 4/14)
+- [Threads @mamaoffthegrid — Tesla New Orleans Molotov context](https://www.threads.com/@mamaoffthegrid/post/DXI1rE4FLvi) — framing post conflating Tesla attacks with warehouse fire wave
+- [Threads @factcheckjeff — "The US averages a little over 4 warehouse fires a day"](https://www.threads.com/@factcheckjeff/post/DXLCEoEDHxO) — statistical context claim; verified accurate against NFPA data
+- [NFPA Warehouse Structure Fires — landing page](https://www.nfpa.org/education-and-research/research/nfpa-research/fire-statistical-reports/warehouse-structure-fires) — source for baseline statistics
 
 ---
 

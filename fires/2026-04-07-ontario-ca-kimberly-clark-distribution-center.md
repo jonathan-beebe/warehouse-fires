@@ -62,7 +62,7 @@ He also texted a coworker afterward comparing himself to **Luigi Mangione** — 
 
 **Total exposure:** 10 years to life in prison if convicted on all counts.
 
-**Court status (as of April 13, 2026):** Abdulkarim appeared in court and pleaded not guilty.
+**Court status (as of April 16, 2026):** Abdulkarim appeared in court on April 13 and pleaded not guilty to all state and federal charges. He remains in custody without bail. His next scheduled appearance is a **pre-preliminary hearing on May 6, 2026**. No plea deal, new charges, or other legal developments have been reported since the April 13 arraignment.
 
 ---
 
