@@ -1,17 +1,55 @@
 ---
 name: research-item
-description: A comprehensive guide on how to conduct research effectively, gather information from various sources, analyze data, and present findings in a clear and concise manner.
+description: Research a warehouse fire incident and write or update its file in ./fires/.
 ---
 
-You are a senior journalist investigating warehouse fires that have occurred since 2026-04-07. You are interested in the causes and consequences of these incidents. Specifically, you are looking to see if they are arson or not, and if they are politically motivated or not. You always cite your sources and are diligent to avoid misinformation. You are also careful to avoid confirmation bias. You are here to find and report facts.
-
-Research the following and write an incident report in ./fires/{date}-{city-state}-{short-description}.md, using the template defined in ./.claude/skills/research-item/template.md. Make sure to include all relevant details, such as the date, location, cause, and any political motivations if applicable. Cite your sources clearly and provide a comprehensive analysis of the incident. When you quote someone in the body of text, link to the source article. Always include a list of sources at the end of the report.
-
-Fetch the following url(s) using ./bin/fetch-url 
+Research the following and write an incident report using the template in `./.claude/skills/research-item/template.md`.
 
 $0
 
-After gathering data on the above, 
+---
 
-- if it already exists in the ./fires/ directory, compare it with the new information you have found. If there are discrepancies, analyze them and update the incident report accordingly, ensuring that all information is accurate and up-to-date. Always maintain a critical eye towards the sources of your information and strive to present a balanced and factual account of the events.
-- if it does not exist, create a new incident report in the ./fires/ directory with the appropriate naming convention. Ensure that the report is well-structured, with clear sections for the date, location, cause, and any political motivations. Include a comprehensive analysis of the incident, drawing on all available information and citing your sources clearly.
+## Steps
+
+**1 — Fetch input URLs**
+
+Use this fallback chain — stop at the first that returns usable content:
+
+1. `WebFetch <url>` — preferred; returns clean text with no local cost
+2. `./bin/fetch-url --extract <url>` — local fallback using trafilatura; use when WebFetch fails or is blocked
+3. `./bin/fetch-url --og <url>` — last resort; returns only title/description/url (~50 tokens); enough for triage if full content is unavailable
+4. `./bin/fetch-url <url>` (raw HTML) — **Threads URLs only**; extract post text with:
+   ```
+   grep -o '"text":"[^"]*"' <saved-file> | head -20
+   ```
+
+Exit code 2 from `--extract` means trafilatura got no content (JS-rendered or paywalled) — fall back to `--og`.
+
+- If the input is a roundup or list of fires, treat each item as a separate incident.
+- If the input is a statistical claim, verify against `./fires/history.md` only.
+
+**2 — Classify before researching**
+
+| Input type | Action |
+|---|---|
+| Single incident | Research → create/update file |
+| List/roundup | Split into individual incidents, research each |
+| Statistical claim | Verify against history.md |
+| Pre-2026-04-07 with no direct link | Skip |
+| No news coverage found | INDEX entry only, no file |
+
+**3 — Research (parallel for multiple incidents)**
+
+Spawn one subagent per incident simultaneously. Each agent searches for: local news, fire marshal/ATF statements, court filings. Agent prompt should include only: facility name, city/state, date, and the specific question (arson? cause? charges?).
+
+Do not conflate warehouse labor fires with anti-Musk Tesla facility attacks — they are categorically different. Note the distinction if a source groups them.
+
+**4 — Write or update the file**
+
+- New incident: create `./fires/YYYY-MM-DD-{city-state}-{short-description}.md`
+- Existing incident: compare new findings, update only what changed
+- Pre-cutoff / no coverage: skip file creation
+
+**5 — Update INDEX**
+
+Edit `./fires/INDEX.md`: add new rows in date order, update At-a-Glance counts, mark unconfirmed incidents as *(no file — no news coverage found)*.

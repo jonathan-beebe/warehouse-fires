@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""Fetch a URL with browser-like headers. Outputs raw HTML to stdout."""
+"""Fetch a URL with browser-like headers.
+
+Output modes (mutually exclusive):
+  (default)    Raw HTML to stdout
+  --extract    Main article text via trafilatura (~90% fewer tokens than raw HTML)
+  --og         OpenGraph/meta tags only (title, description, url) — ultra-cheap triage
+"""
 
 import argparse
 import gzip
@@ -9,6 +15,7 @@ import sys
 import urllib.error
 import urllib.request
 import zlib
+from html.parser import HTMLParser
 
 HEADERS = {
     "User-Agent": (
@@ -53,8 +60,6 @@ def fetch(url, timeout=30, verbose=False):
 
     if verbose:
         print(f"GET {url}", file=sys.stderr)
-        for key, value in HEADERS.items():
-            print(f"  {key}: {value}", file=sys.stderr)
 
     response = opener.open(request, timeout=timeout)
 
@@ -76,14 +81,100 @@ def fetch(url, timeout=30, verbose=False):
     return data.decode(charset, errors="replace")
 
 
+def extract_text(html, url=None):
+    """Extract main article text using trafilatura. Returns plain text or empty string."""
+    try:
+        import trafilatura
+        result = trafilatura.extract(
+            html,
+            url=url,
+            include_comments=False,
+            include_tables=False,
+            no_fallback=False,
+        )
+        return result or ""
+    except ImportError:
+        print("trafilatura not installed. Run: python3 -m pip install trafilatura", file=sys.stderr)
+        sys.exit(1)
+
+
+class OGParser(HTMLParser):
+    """Extract OpenGraph and standard meta tags from HTML <head>."""
+
+    def __init__(self):
+        super().__init__()
+        self.fields = {}
+        self._in_head = False
+        self._done = False
+
+    def handle_starttag(self, tag, attrs):
+        if self._done:
+            return
+        if tag == "head":
+            self._in_head = True
+        if tag == "body":
+            self._done = True
+        if not self._in_head:
+            return
+        if tag == "title":
+            self._capture_title = True
+        if tag == "meta":
+            attrs = dict(attrs)
+            prop = attrs.get("property", "") or attrs.get("name", "")
+            content = attrs.get("content", "")
+            if prop in ("og:title", "twitter:title") and "title" not in self.fields:
+                self.fields["title"] = content
+            elif prop in ("og:description", "description", "twitter:description") and "description" not in self.fields:
+                self.fields["description"] = content
+            elif prop == "og:url" and "url" not in self.fields:
+                self.fields["url"] = content
+            elif prop in ("og:site_name",) and "site" not in self.fields:
+                self.fields["site"] = content
+            elif prop in ("article:published_time", "og:article:published_time") and "published" not in self.fields:
+                self.fields["published"] = content
+
+    def handle_endtag(self, tag):
+        if tag == "head":
+            self._done = True
+
+    def handle_data(self, data):
+        if getattr(self, "_capture_title", False) and "title" not in self.fields:
+            text = data.strip()
+            if text:
+                self.fields["title"] = text
+        self._capture_title = False
+
+
+def extract_og(html):
+    """Return OpenGraph/meta fields as formatted text."""
+    parser = OGParser()
+    parser.feed(html[:50000])  # only need the <head>
+    fields = parser.fields
+    if not fields:
+        return "(no meta tags found)"
+    lines = []
+    for key in ("title", "description", "url", "site", "published"):
+        if key in fields:
+            lines.append(f"{key}: {fields[key]}")
+    return "\n".join(lines)
+
+
 def main():
     parser = argparse.ArgumentParser(
-        description="Fetch a URL with browser-like headers."
+        description="Fetch a URL with browser-like headers.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument("url", help="URL to fetch")
     parser.add_argument("-o", "--output", help="Write to FILE instead of stdout")
     parser.add_argument("-t", "--timeout", type=int, default=30, help="Timeout in seconds (default: 30)")
     parser.add_argument("-v", "--verbose", action="store_true", help="Print request/response details to stderr")
+
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("--extract", action="store_true",
+                      help="Extract main article text via trafilatura (~90%% fewer tokens than raw HTML)")
+    mode.add_argument("--og", action="store_true",
+                      help="Return OpenGraph/meta tags only (title, description, url) — fast triage")
+
     args = parser.parse_args()
 
     try:
@@ -98,13 +189,25 @@ def main():
         print(f"Timeout after {args.timeout}s — {args.url}", file=sys.stderr)
         sys.exit(1)
 
+    if args.extract:
+        output = extract_text(html, url=args.url)
+        if not output:
+            print("(trafilatura returned no content — page may be JS-rendered or paywalled)", file=sys.stderr)
+            sys.exit(2)
+    elif args.og:
+        output = extract_og(html)
+    else:
+        output = html
+
     if args.output:
         with open(args.output, "w", encoding="utf-8") as f:
-            f.write(html)
+            f.write(output)
         if args.verbose:
             print(f"  Written to: {args.output}", file=sys.stderr)
     else:
-        sys.stdout.write(html)
+        sys.stdout.write(output)
+        if output and not output.endswith("\n"):
+            sys.stdout.write("\n")
 
 
 if __name__ == "__main__":
