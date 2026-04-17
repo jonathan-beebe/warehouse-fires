@@ -12,7 +12,7 @@ This project exists to **cut through that noise**: rigorously document what actu
 
 ## Research Process
 
-Only look for reports from 2026-04-07 or later. We are not interested in historical fires earlier that, unless they have a direct link or special relevance to current events.
+Only look for reports of fires occurring in the year 2026. We are not interested in historical fires earlier that, unless they have a direct link or special relevance to current events.
 
 ### Step 1 — Social Media Sweep
 

@@ -15,6 +15,8 @@ Run `Glob("fires/*.md")` to get all documented incident filenames. Filenames enc
 
 ## Step 2 — Search in parallel (2 agents)
 
+Take into account any user research they passed in: $0
+
 **Agent 1 — News & trade press.** WebSearch for:
 - `warehouse fire 2026 site:apnews.com OR site:reuters.com`
 - `"distribution center fire" 2026`
