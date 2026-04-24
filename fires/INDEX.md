@@ -1,6 +1,6 @@
 # Warehouse Fires — Research Index
 
-**Research date:** April 16, 2026 (updated)  
+**Research date:** April 24, 2026 (updated — sweep added 10 incidents)
 **Focus:** U.S. warehouse/industrial fires in 2026, particularly incidents involving arson or suspected connections to labor/wage protests.
 
 ---
@@ -9,18 +9,18 @@
 
 | | Count |
 |---|---|
-| **Total incidents documented** | **17** |
+| **Total incidents documented** | **26** |
 | Confirmed arson (charges filed) | 3 |
 | — with explicit labor/wage motive | 1 |
 | — with job-loss/employment motive | 1 |
 | — with political/anti-Musk motive (ATF confirmed device) | 1 |
-| Confirmed NOT arson | 5 |
-| Under investigation / cause undetermined | 7 |
+| Confirmed NOT arson | 8 |
+| Under investigation / cause undetermined | 13 |
 | Unconfirmed (no news coverage found) | 2 |
 
-**Of the 17 incidents, only 1 is a confirmed warehouse arson with an explicit labor/wage motive: the April 7, 2026 Kimberly-Clark fire in Ontario, CA.**
+**Of the 26 incidents, only 1 is a confirmed warehouse arson with an explicit labor/wage motive: the April 7, 2026 Kimberly-Clark fire in Ontario, CA.**
 
-> The other 16 incidents are fires that generated online noise in the same period — most are under investigation or have confirmed non-arson causes. This index exists to separate confirmed fact from speculation.
+> The other 25 incidents are fires that generated online noise in the same period or surfaced in sweeps of the broader industrial-fire landscape — most are under investigation or have confirmed non-arson causes. This index exists to separate confirmed fact from speculation.
 
 ---
 
@@ -37,11 +37,16 @@ It is part of a broader pattern: in the 9 days following that arson, **at least 
 | Date | Location | Facility | Arson? | Labor Link? | File |
 |---|---|---|---|---|---|
 | 2026-01-05 | Joliet, IL | Amazon warehouse (Brandon Rd) | Undetermined | None | [link](2026-01-05-joliet-il-amazon-warehouse.md) |
+| 2026-03-04 | Logan Township, NJ | Savita Naturals (cocoa-butter extraction, Pureland Industrial) | Under investigation (not believed criminal; propane + process) | None | [link](2026-03-04-logan-township-nj-savita-naturals.md) |
+| 2026-03-05 | Miami Gardens, FL | Global Warehouse Solutions (20600 NW 47th Ave, 3PL) | Under investigation | None | [link](2026-03-05-miami-gardens-fl-global-warehouse-solutions.md) |
 | 2026-03-16 | Flushing, Queens, NY | Residential building (Avery Ave) | **YES** — 4 killed | Job loss (fired) | [link](2026-03-16-flushing-queens-ny-avery-ave-residential.md) |
+| 2026-04-03 | Paterson, NJ | Abandoned Galaxie Chemical factory (17 E. Main St., Superfund) | Under investigation (squatter-related accidental suspected) | None | [link](2026-04-03-paterson-nj-abandoned-chemical-factory.md) |
+| 2026-04-04 | Maywood, IL | F&L Pallets Inc. (1301 S. 1st Ave) | Under investigation | None | [link](2026-04-04-maywood-il-fl-pallets.md) |
 | **2026-04-07** | **Ontario, CA** | **Kimberly-Clark Distribution Center** | **YES — CONFIRMED** | **EXPLICIT wage protest** | [link](2026-04-07-ontario-ca-kimberly-clark-distribution-center.md) |
 | 2026-04-08 | West Jefferson, OH | Amazon fulfillment center (1550 W. Main St.) | No — solar panels | None | [link](2026-04-08-west-jefferson-oh-amazon-fulfillment-center.md) |
 | 2026-04-08/09 | East Providence, RI | Aspen Aerogels manufacturing plant | No — ethanol vapor (accident) | None | [link](2026-04-08-east-providence-ri-aspen-aerogels.md) |
 | 2026-04-09 | Newark, NJ | Chemical warehouse, 104 Lister Ave (Ironbound) | Under investigation | None reported | [link](2026-04-09-newark-nj-lister-ave-chemical-warehouse.md) |
+| 2026-04-09 | Longview, TX | Metal warehouse, 2000 blk E. Marshall Ave | Under investigation | None reported | [link](2026-04-09-longview-tx-marshall-ave-metal-warehouse.md) |
 | 2026-04-10 | Lawrenceville, GA | GSL Transfer Station (near Gwinnett Co. Airport) | No — accidental | None | [link](2026-04-10-lawrenceville-ga-gsl-transfer-station.md) |
 | 2026-04-10 | Ontario, CA | Ontario Mills Mall (multiple retail stores) | **YES — confirmed arson** | None | [link](2026-04-10-ontario-ca-ontario-mills-mall.md) |
 | 2026-04-10/11 | College Point, Queens, NY | One Stop Lumber & Floor Coverings (130-17 23rd Ave) | Under investigation | None reported | [link](2026-04-10-college-point-queens-ny-lumberyard-warehouse.md) |
@@ -53,6 +58,10 @@ It is part of a broader pattern: in the 9 days following that arson, **at least 
 | 2026-04-14 | Mobile, AL | Kimberly-Clark facility (200 Africatown Blvd) | Under investigation | None reported | [link](2026-04-14-mobile-al-kimberly-clark.md) |
 | 2026-04-14 | New Orleans, LA | Tesla sales office, 2801 Tchoupitoulas St (Irish Channel) | Suspected arson — Molotov cocktail (ATF confirmed device) | None (anti-Musk/DOGE) | [link](2026-04-14-new-orleans-la-tesla-sales-office.md) |
 | 2026-04-14 | Rahway, NJ | Unknown facility — **UNCONFIRMED** | Unknown | Unknown | *(no file — no news coverage found)* |
+| 2026-04-15 | Lubbock County, TX | Southeast Pallet Yard (7500 blk Southeast Dr, outside city limits) | Under investigation | None reported | [link](2026-04-15-lubbock-county-tx-pallet-yard.md) |
+| 2026-04-20 | Rigby, ID | Snow Cap Storage (self-storage, 149 3850 East) | No — accidental (unattended candle) | None | [link](2026-04-20-rigby-id-snow-cap-storage.md) |
+| 2026-04-21 | Mishawaka, IN | AAA Mattress & Furniture Warehouse (926 E. McKinley) | No — accidental (lightning strike; lithium-battery storage) | None | [link](2026-04-21-mishawaka-in-aaa-mattress-warehouse.md) |
+| 2026-04-21 | Ottawa, IL | Coogee Chemical (1501 Titanium Dr, metal-powders magnesium) | No — accidental (equipment failure in Mg transfer); 2 injured | None | [link](2026-04-21-ottawa-il-coogee-chemical.md) |
 
 ---
 
@@ -131,6 +140,18 @@ The @mamaoffthegrid Threads post (April 14) explicitly merged these two waves, c
 - No news coverage confirming a West Jefferson, NC Amazon fire on April 13; the sole source post (@mikebanksmadeit) almost certainly depicts the West Jefferson, Ohio fire (April 8, solar panels) — a separate Threads post by @leftamongthepages explicitly corrects this confusion
 - No news coverage confirming a Rahway, NJ fire on April 14
 - The Leadville, CO cannabis dispensary fire (Floyd's of Leadville, 1100 block of Poplar St) occurred December 18, 2025 — before the April 7, 2026 research scope cutoff — and is not documented in this project
+
+---
+
+## Sweep Update — April 24, 2026
+
+A broader sweep of news/trade-press and social-media sources surfaced 9 additional 2026 U.S. industrial/warehouse fires not previously in the index. None show confirmed arson or labor-protest motive:
+
+- **Pre-cluster (before April 7):** Logan Township NJ (Savita Naturals, 3/4), Miami Gardens FL (Global Warehouse Solutions, 3/5), Paterson NJ (abandoned Galaxie Chemical, 4/3), Maywood IL (F&L Pallets, 4/4).
+- **Inside the April 7–14 window:** Longview TX (4/9).
+- **Post-cluster:** Lubbock County TX pallet yard (4/15), Rigby ID Snow Cap Storage (4/20, candle), Mishawaka IN AAA Mattress warehouse (4/21, lightning), Ottawa IL Coogee Chemical magnesium fire (4/21, equipment failure).
+
+The Ottawa magnesium fire notably parallels the earlier Compton CA Magnesium Alloy Products fire (4/14) — both involved reactive-metal processing but are different companies at different facilities with no known link.
 
 ---
 
